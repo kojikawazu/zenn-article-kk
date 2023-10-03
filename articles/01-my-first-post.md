@@ -21,8 +21,8 @@ slug: "01-my-first-post"
   - bash, bat 
 
 - **フレームワーク**
-  - ウェブ開発: Spring Boot, React, Next.js
-  - バックエンド: Node.js
+  - ウェブ開発: React, Next.js
+  - バックエンド: Node.js, Spring Boot
 
 - **オペレーティングシステム**
   - リナックスディストリビューション: Miracle Linux 7/8, CentOS 6/7
@@ -31,6 +31,8 @@ slug: "01-my-first-post"
   - クラウド: GCP
   - コンテナ化: Docker
   - コード管理： GitHub, BitBucket, SVN
+  - プロジェクト管理： JIRA, Confluence, Redmine
+  - 仮想ツール：VMware
 
 # 今後の展開
 
