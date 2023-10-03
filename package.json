@@ -1,0 +1,23 @@
+{
+  "name": "zenn-article-kk",
+  "version": "1.0.0",
+  "description": "Zennと同期するリポジトリ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kojikawazu/zenn-article-kk.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kojikawazu/zenn-article-kk/issues"
+  },
+  "homepage": "https://github.com/kojikawazu/zenn-article-kk#readme",
+  "dependencies": {
+    "zenn-cli": "^0.1.147"
+  }
+}
