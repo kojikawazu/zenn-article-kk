@@ -3,7 +3,7 @@ title: "初投稿"
 emoji: "📑"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["初投稿", "自己紹介"]
-published: false
+published: true
 slug: "01-my-first-post" 
 ---
 
