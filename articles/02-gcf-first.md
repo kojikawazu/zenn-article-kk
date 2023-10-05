@@ -1,25 +1,26 @@
 ---
-title: "Cloud Functionsを使ってみる"
-emoji: "📄"
-type: "tech" # tech: 技術記事 / idea: アイデア
+title: "Cloud Functionsの導入と実装に挑戦"
+emoji: "💻"
+type: "tech"
 topics: ["zenn","CloudFunctions","GCP","Nodejs"]
 published: false
 ---
 
-# 目的
+# 🎯目的
 
 - バックエンドAPIを実装する必要がある。
 - 小規模な為、サーバレスとしたい。
+- 最初の導入メモとしても利用。
 
 # Cloud Functionsとは
 
 クラウドサービスの構築と接続に使用するサーバーレスのランタイム環境。
 Cloud Functionsを使用すると、クラウドのインフラストラクチャやサービスで生じたイベントに関連するシンプルで一義的な関数を作成できる。
 
-私はCloud Functionsで
+私はCloud Functionsで以下を実装した。
 - Cloud StorageからJSONデータを取得する
 - 外部メールサービスのAPIを使用し、Gmailを送信する
-- CLoud Loggingでエラーログを出力する
+- Cloud Loggingでエラーログを出力する
 
 以下ドキュメントを参考としている。
 https://cloud.google.com/functions/docs/concepts/overview?hl=ja
@@ -27,7 +28,7 @@ https://cloud.google.com/functions/docs/concepts/overview?hl=ja
 
 # 手動で関数を追加する
 
-まずはGoogle Functionsに関数を作成し、デプロイを実施する。
+まずはCloud Functionsに関数を作成し、デプロイを実施する。
 今回はドキュメントを基にテキストベースで記載する。
 
 ドキュメントは以下になる。
@@ -43,7 +44,7 @@ https://console.cloud.google.com/?hl=ja
 以下URLはプロジェクトの作成方法になります。
 https://cloud.google.com/resource-manager/docs/creating-managing-projects?hl=ja&_ga=2.234129886.-1344870585.1694360309&_gac=1.196132190.1696416606.Cj0KCQjwmvSoBhDOARIsAK6aV7iBLE02RpuWv_ERVrkOlBUswnDStF54IQW9Cwg16v57p8aE371W3QIaAjFgEALw_wcB
 
-3. 検索欄から「Google Functions」を検索し移動する 
+3. 検索欄から「Cloud Functions」を検索し移動する 
 &nbsp;
 
 4. 新しい関数を1つ作成する
@@ -52,7 +53,7 @@ https://cloud.google.com/resource-manager/docs/creating-managing-projects?hl=ja&
 
 5. 必要なAPIを有効にする
    
-   以下追加するAPIリストになる。
+   以下追加するAPIリストです
    - Cloud Build API
    - Cloud Functions API
    - Cloud Logging API
@@ -81,11 +82,11 @@ https://cloud.google.com/resource-manager/docs/creating-managing-projects?hl=ja&
 
 7. 必要なAPIを有効にする
 
-   以下追加するAPIリストになる。
+   以下追加するAPIリストです
    - Cloud Run Admin API
 &nbsp;
 
-8. コードを実装する
+8. **コードを実装する**
 
   - 構成
     - ランタイム
@@ -132,8 +133,14 @@ functions.http('helloHttp', (req, res) => {
     「デプロイ」ボタンを押下する。
     デプロイが完了すると「URL」が作成され、そのリンクへ移動すると実行が可能。
 
-# 実行結果
+# 🚀実行結果
 
 Cloud FunctionsのURLを実行すると以下が表示される
 
 ![image](https://storage.googleapis.com/zenn-user-upload/9f18232cbc45-20231006.png)
+
+# 今後の展望
+
+最初のステップとして、**Cloud Functionsのコード管理を最適化**します。具体的には、GitHubを利用し、GitHub Actionsを用いた自動デプロイの手順を確立します。次に、**Cloud Storageからのデータ取得及び、非公開情報（文字列）の保管方法**に注目します。後者については、Secret Managerを使用して情報を保管し、Cloud Functionsから安全に取得するプロセスを手順化する計画です。
+
+最後までお読みいただき本当にありがとうございます！
