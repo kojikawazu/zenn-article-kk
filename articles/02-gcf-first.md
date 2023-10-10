@@ -3,7 +3,7 @@ title: "Cloud Functionsの導入と実装に挑戦"
 emoji: "💻"
 type: "tech"
 topics: ["zenn","CloudFunctions","GCP","Nodejs"]
-published: false
+published: true
 ---
 
 # 🎯目的
