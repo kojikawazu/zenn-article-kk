@@ -3,7 +3,7 @@ title: "GitHub ActionsでCloud Functionsを自動デプロイ"
 emoji: "📄"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["zenn","cloudfunctions","GCP","githubactions"]
-published: false
+published: true
 ---
 
 # 🎯目的
