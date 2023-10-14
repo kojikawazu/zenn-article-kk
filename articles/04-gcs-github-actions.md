@@ -2,8 +2,8 @@
 title: "GitHub Actionsを利用してGCPのCloud Storageへの自動デプロイを実現する方法"
 emoji: "⚙️"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: ["zenn","cloudfunctions","GCP","githubactions"]
-published: false
+topics: ["zenn","cloudfunctions", "cloudstorage", "GCP","githubactions"]
+published: true
 ---
 
 # 🎯目的
