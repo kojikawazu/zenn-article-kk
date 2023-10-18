@@ -3,7 +3,7 @@ title: "Cloud Functionsの関数をCloud Schedulerで実行"
 emoji: "⏰"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["zenn","cloudfunctions", "cloudscheduler", "GCP","githubactions"]
-published: false
+published: true
 ---
 
 # 🎯目的
