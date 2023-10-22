@@ -3,7 +3,7 @@ title: "Webアプリの自動ビルドとArtifact Registryにイメージ保管"
 emoji: "📄"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["nextjs", "typescript", "docker", "GCP", "githubactions"]
-published: false
+published: true
 ---
 
 # 🎯目的
