@@ -14,38 +14,38 @@ published: true
 
 # 前提条件
 
-作業を開始する前に、いくつかの設定を完了させておく必要がある。
+作業を開始する前に、いくつかの設定を完了させておく必要があります。
 
 ## Google Cloud SDKのインストールと設定
 
-Google Cloud SDKをインストールし、初期設定を行います。詳細な手順はGoogle Cloud SDKのドキュメントを参照すること。
+Google Cloud SDKをインストールし、初期設定を行います。詳細な手順はGoogle Cloud SDKのドキュメントを参照してください。
 
 https://cloud.google.com/sdk/docs/install?hl=ja
 
 ## GCPプロジェクトの準備
 
-GCPプロジェクトを新規に作成するか、既存のプロジェクトを使用します。プロジェクトの作成や管理については、GCPプロジェクト管理のドキュメントを参照すること。
+GCPプロジェクトを新規に作成するか、既存のプロジェクトを使用します。プロジェクトの作成や管理については、GCPプロジェクト管理のドキュメントを参照してください。
 
 https://cloud.google.com/resource-manager/docs/creating-managing-projects?hl=ja
 
 # 🔐 Cloud Scheduler用のGCPのサービスアカウントを作成する
 
-Cloud SchedulerがCloud Functionsの関数を呼び出すための認証に使用するサービスアカウントを作成する。
+Cloud SchedulerがCloud Functionsの関数を呼び出すための認証に使用するサービスアカウントを作成します。
 
-1. 左のナビゲーションペインから「IAM & 管理」→「サービスアカウント」を選択する。
-2. 「サービスアカウントを作成」ボタンをクリックする。
-3. 必要な情報（サービスアカウント名、説明等）を入力し、「作成」をクリックする。
-4. 役割を付与して、サービスアカウントに必要な権限を設定する。
+1. 左のナビゲーションペインから「IAM & 管理」→「サービスアカウント」を選択します。
+2. 「サービスアカウントを作成」ボタンをクリックします。
+3. 必要な情報（サービスアカウント名、説明等）を入力し、「作成」をクリックします。
+4. 役割を付与して、サービスアカウントに必要な権限を設定します。
    - **Cloud Run 起動元**
-     - Cloud SchedulerからCloud Functionsの実行権を付与する。
+     - Cloud SchedulerからCloud Functionsの実行権を付与します。
 
 # ⏱️ Cloud Schedulerのジョブを作成する。
 
-Cloud Schedulerで新しいジョブを作成し、Cloud Functionsの関数を定期的に実行するように設定する。
+Cloud Schedulerで新しいジョブを作成し、Cloud Functionsの関数を定期的に実行するように設定します。
 
-1. 「ジョブのスケジュールを設定」ボタンを押下する。
-2. 必要な情報を入力する。
-- スケジュールを定義する。
+1. 「ジョブのスケジュールを設定」ボタンを押下します。
+2. 必要な情報を入力します。
+- スケジュールを定義します。
   - 名前
   - リージョン
   - 説明
@@ -54,42 +54,42 @@ Cloud Schedulerで新しいジョブを作成し、Cloud Functionsの関数を�
       - 0 9 * * *
   - タイムゾーン 
 
-- 実行内容を定義する。
+- 実行内容を定義します。
   -  ターゲットタイプ
     - HTTPに設定
   - URL
-    - Cloud FunctionsのURLを設定
+    - Cloud FunctionsのURLを設定します。
   - HTTPメソッド
     - Cloud Functionsで使用するメソッド
   - HTTPヘッダー
-    - 必要の場合ヘッダも設定
+    - 必要の場合ヘッダも設定します。
   - Authヘッダー(Cloud Functionsの認証が必要な場合、以降を入力)
     - OIDCトークンを追加
   - サービスアカウント
-    - 先ほど作成したサービスアカウントを選択する。
+    - 先ほど作成したサービスアカウントを選択します。
   - 対象
-    - Cloud Functionsの関数のURLを設定する。
+    - Cloud Functionsの関数のURLを設定します。
 
-3. 「作成」ボタンを押下してジョブをスケジュールする。
+3. 「作成」ボタンを押下してジョブをスケジュールします。
 
 これで、Cloud Schedulerは毎日指定した時間にCloud Functionsの関数を自動的に実行します。
 
 # 🚀 GitHub ActionsでのCloud Schedulerジョブの自動デプロイ
 
-GitHub Actionsを使用して、Cloud Schedulerのジョブを自動的にデプロイするCI/CDパイプラインを構築する。
+GitHub Actionsを使用して、Cloud Schedulerのジョブを自動的にデプロイするCI/CDパイプラインを構築します。
 
 ### サービスアカウントの設定
 
-1. GCPにて、Cloud Scheduler自動デプロイ用のサービスアカウントを作成する。
-2. 新しいサービスアカウントに以下の役割を付与する：
+1. GCPにて、Cloud Scheduler自動デプロイ用のサービスアカウントを作成します。
+2. 新しいサービスアカウントに以下の役割を付与します：
    - Cloud Scheduler 閲覧者
    - Cloud Scheduler 管理者
    - サービス アカウント ユーザー
 
 ### GitHubリポジトリの設定
 
-1. Cloud Schedulerのジョブ設定用の新しいGitHubリポジトリを作成する。
-2. リポジトリに「.github/workflows/deploy-cloud-scheduler.yml」という名前の新しいワークフローを作成する。
+1. Cloud Schedulerのジョブ設定用の新しいGitHubリポジトリを作成します。
+2. リポジトリに「.github/workflows/deploy-cloud-scheduler.yml」という名前の新しいワークフローを作成します。
 
 以下は、ワークフローのYAMLファイルの例。各項目を自分の環境に合わせて適切に置き換えてください。
 
@@ -162,8 +162,8 @@ jobs:
 - REGION_NAME: リージョン名
 - SCHEDULER_VALUE: スケジュール(0 9 * * *)
 - SCHEDULER_JOB_URL: Cloud FunctionsのURL
-- SERVICE_ACCOUNT_EMAIL: Cloud SchedulerからCloud Functionsを実行する場合のサービスアカウントのEmail。このサービスアカウントによりOIDC認証を行う。
-- SCHEDULER_JOB_URL: 認証を行う対象。今回はCloud FunctionsのURLとなる。
+- SERVICE_ACCOUNT_EMAIL: Cloud SchedulerからCloud Functionsを実行する場合のサービスアカウントのEmail。このサービスアカウントによりOIDC認証を行います。
+- SCHEDULER_JOB_URL: 認証を行う対象。今回はCloud FunctionsのURLとなります。
 - SCHEDULER_DESC: Cloud Schedulerの説明
 - SCHEDULER_TIME_ZONE: Cloud Schedulerのタイムゾーン(例：Asia/Tokyo)
 
