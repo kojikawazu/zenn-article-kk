@@ -14,29 +14,29 @@ published: true
 
 # Cloud Functionsとは
 
-クラウドサービスの構築と接続に使用するサーバーレスのランタイム環境。
-Cloud Functionsを使用すると、クラウドのインフラストラクチャやサービスで生じたイベントに関連するシンプルで一義的な関数を作成できる。
+クラウドサービスの構築と接続に使用するサーバーレスのランタイム環境です。
+Cloud Functionsを使用すると、クラウドのインフラストラクチャやサービスで生じたイベントに関連するシンプルで一義的な関数を作成できます。
 
-私はCloud Functionsで以下を実装した。
-- Cloud StorageからJSONデータを取得する
-- 外部メールサービスのAPIを使用し、Gmailを送信する
-- Cloud Loggingでエラーログを出力する
+私はCloud Functionsで以下を実装しました。
+- Cloud StorageからJSONデータを取得します
+- 外部メールサービスのAPIを使用し、Gmailを送信します
+- Cloud Loggingでエラーログを出力します
 
-以下ドキュメントを参考としている。
+以下のドキュメントを参考にしました。
 https://cloud.google.com/functions/docs/concepts/overview?hl=ja
 
 
 # 手動で関数を追加する
 
-まずはCloud Functionsに関数を作成し、デプロイを実施する。
-今回はドキュメントを基にテキストベースで記載する。
+まず、Cloud Functionsに関数を作成し、デプロイを実施します。
+今回はドキュメントを基にテキストベースで記載しました。
 
-ドキュメントは以下になる。
+ドキュメントは以下になります。
 https://cloud.google.com/functions/docs/console-quickstart?hl=ja
 
 1. Google Cloud Platform(GCP)のコンソール画面を開く
 
-以下URLへ移動する。
+以下のURLへ移動します。
 https://console.cloud.google.com/?hl=ja
 
 2. Projectを1つ作成する
@@ -48,36 +48,36 @@ https://cloud.google.com/resource-manager/docs/creating-managing-projects?hl=ja&
 &nbsp;
 
 4. 新しい関数を1つ作成する
-  「ファンクションを作成する」ボタンを押下する
+  「ファンクションを作成する」ボタンを押下します。
 &nbsp;
 
 5. 必要なAPIを有効にする
    
-   以下追加するAPIリストです
+   以下が追加するAPIリストです。
    - Cloud Build API
    - Cloud Functions API
    - Cloud Logging API
    - Cloud Pub/Sub API
   
-   ※ 後に「Cloud Run Admin API」も必要となる為、予めAPIの有効化を推奨する。
+   ※ 後に「Cloud Run Admin API」も必要になるので、予めAPIの有効化を推奨します。
 &nbsp;
 
 6. 各項目を入力し、「次へ」ボタンを押下する
-   今回は基本のみ入力する。
+   今回は基本のみ入力しました。
 
    - 基本
-     - 「第1世代」、「第2世代」がある。
-        HTTPSがデフォルトで使用可能な「第2世代」を使用する。 
+     - 「第1世代」、「第2世代」があります。
+        HTTPSがデフォルトで使用可能な「第2世代」を使用します。
      - 関数名
-       任意でOK
+       任意で大丈夫です。
      - リージョン
-       「asia-northest1(東京)」を使用する。
+       「asia-northest1(東京)」を使用します。
    - トリガー
      - 認証
-      「未認証の呼び出しを許可」、「認証が必要」がある。
-      お試し用の為、「未認証の呼び出しを許可」を選択
+      「未認証の呼び出しを許可」、「認証が必要」があります。
+      お試し用として、「未認証の呼び出しを許可」を選択しました。
    - URL
-     作成されるURLが表示される。今後バックエンドAPIを実行する時に必要となる。 
+     作成されるURLが表示されます。今後バックエンドAPIを実行する際に必要となります。
 &nbsp;
 
 7. 必要なAPIを有効にする
@@ -90,15 +90,15 @@ https://cloud.google.com/resource-manager/docs/creating-managing-projects?hl=ja&
 
   - 構成
     - ランタイム
-      .NET, Go, Java, Node.js, PHP, Python, Rubyと使用できる。
-      今回はデフォルトのまま、「Node.js 20」を使用する。
+      .NET, Go, Java, Node.js, PHP, Python, Rubyが使用できます。
+　　　今回はデフォルトのまま、「Node.js 20」を使用しました。
     - ソースコード
-      ZIPアップロード、Cloud StorageのZIP、インラインエディタと使用できる。
-      今回は「インラインエディタ」を使用する。
+      ZIPアップロード、Cloud StorageのZIP、インラインエディタが使用できます。
+      今回は「インラインエディタ」を使用しました。
     - エントリポイント 
-      今回はそのまま使用する。 
+      今回はそのまま使用しました。
 
-実際のソースコードは以下となる。今回はデフォルトのまま使用する。
+実際のソースコードは以下となります。今回はデフォルトのまま使用しました。
 
 ```javascript
 // index.js
@@ -130,17 +130,17 @@ functions.http('helloHttp', (req, res) => {
 &nbsp;
 
 10.  デプロイする
-    「デプロイ」ボタンを押下する。
-    デプロイが完了すると「URL」が作成され、そのリンクへ移動すると実行が可能。
+    コードを実装したら、「関数をテスト」ボタンを押下します。
+　　テスト環境が自動生成されるので、Cloud Shellのターミナルでテストの　　確認を行います。
 
 # 🚀実行結果
 
-Cloud FunctionsのURLを実行すると以下が表示される
+Cloud FunctionsのURLを実行すると以下が表示されます。
 
 ![image](https://storage.googleapis.com/zenn-user-upload/9f18232cbc45-20231006.png)
 
 # 今後の展望
 
-最初のステップとして、**Cloud Functionsのコード管理を最適化**します。具体的には、GitHubを利用し、GitHub Actionsを用いた自動デプロイの手順を確立します。次に、**Cloud Storageからのデータ取得及び、非公開情報（文字列）の保管方法**に注目します。後者については、Secret Managerを使用して情報を保管し、Cloud Functionsから安全に取得するプロセスを手順化する計画です。
+最初のステップとして、Cloud Functionsのコード管理を最適化する予定です。具体的には、GitHubを利用して、GitHub Actionsを用いた自動デプロイの手順を確立します。次に、Cloud Storageからのデータ取得及び、非公開情報（文字列）の保管方法に注目します。後者については、Secret Managerを使用して情報を保管し、Cloud Functionsから安全に取得するプロセスを手順化する予定です。
 
 最後までお読みいただき本当にありがとうございます！
