@@ -259,8 +259,7 @@ def read_user_group_user_id(db: Session = Depends(get_db)):
 
 ### PostmanでAPI確認(GET)
 
-URLの「URLパラメータ」に取得したいユーザーIDを設定。
-レスポンスデータでユーザーデータが返ってきたので成功！
+レスポンスデータでグループ化したユーザーデータが返ってきたので成功！
 
 ![Postman結果(GET)](https://storage.googleapis.com/zenn-user-upload/80421280bd75-20231027.png)
 
