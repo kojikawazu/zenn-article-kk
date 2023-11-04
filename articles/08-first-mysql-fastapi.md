@@ -8,8 +8,8 @@ published: true
 
 # 🎯目的
 
-- まずはFastAPIとMySQLを使用した簡単なCRUD操作を試してみる
-- FastAPIの基本的な機能と、データベースとの連携方法を理解する。
+- まずはFastAPIとMySQLを使用した簡単なCRUD操作を試してみます。
+- FastAPIの基本的な機能と、データベースとの連携方法を理解します。
 
 # 前回の内容
 
@@ -19,11 +19,11 @@ https://zenn.dev/kou_kawa/articles/07-first-fastapi
 
 # ✨SQLAlchemyとは
 
-Pythonプログラミング言語のためのオープンソースのSQLツールキットおよびオブジェクト関係マッピングライブラリ（ORM）。MIT Licenseの下で公開されている。SQLAlchemyの主な哲学は、リレーショナルデータベースとオブジェクトコレクションの間の振る舞いの違いを扱うことにある。この為、SQLAlchemyはアクティブレコードパターンではなく、データマッパーパターンを採用している。
+Pythonプログラミング言語のためのオープンソースのSQLツールキットおよびオブジェクト関係マッピングライブラリ（ORM）。MIT Licenseの下で公開されています。SQLAlchemyの主な哲学は、リレーショナルデータベースとオブジェクトコレクションの間の振る舞いの違いを扱うことにあります。この為、SQLAlchemyはアクティブレコードパターンではなく、データマッパーパターンを採用しています。
 
 # ✨pydanticとは
 
-Pythonのデータバリデーションと設定管理を使用するためのライブラリ。主に型ヒントを使用してデータの検証と直列化を行う。これにより、データの検証エラーや不正なデータの取り扱いが簡単になる。
+Pythonのデータバリデーションと設定管理を使用するためのライブラリです。主に型ヒントを使用してデータの検証と直列化を行います。これにより、データの検証エラーや不正なデータの取り扱いが簡単になります。
 
 # ✨同期的セッション、非同期的セッション
 
@@ -49,7 +49,7 @@ Pythonのデータバリデーションと設定管理を使用するための�
 
 # テーブル仕様
 
-今回説明で使用するテーブルは以下とする。
+今回説明で使用するテーブルは以下とします。
 
 ```mermaid
 erDiagram
@@ -65,12 +65,12 @@ erDiagram
   }
 ```
 
-※ passwordカラムは通常暗号化済の文字列とするが、今回はお試しの為、平文とする。
-   実際はどのように暗号化するか設計する必要がある。
+※ passwordカラムは通常暗号化済の文字列とするが、今回はお試しの為、平文とします。
+   実際はどのように暗号化するか設計する必要があります。
 
 # API仕様
 
-今回のAPIは以下とする。RestfulなAPIとする。
+今回のAPIは以下とする。RestfulなAPIとします。
 
 ```
 # method: POST データの追加
@@ -96,7 +96,7 @@ erDiagram
 
 # 使用バージョン
 
-今回使用するバージョンは以下とする。
+今回使用するバージョンは以下とします。
 
 - Python  3.10.7
 - FastAPI 0.104.0
@@ -108,11 +108,11 @@ erDiagram
 pip install pymysql pydantic sqlalchemy databases pydantic[email]
 ```
 
-- pymysql: MySQLデータベースとの接続をサポートするPythonの純粋なPython MySQLクライアント
-- pydantic: データバリデーションとデータのシリアル化/デシリアル化をサポートするライブラリ。FastAPIとの統合が深い。
-- sqlalchemy: SQLツールキットおよびObject-Relational Mapping (ORM) ライブラリ。
-- databases: SQLAlchemyと非同期データベースの統合をサポートするライブラリ。
-- pydantic[email]: pydanticのemailバリデーションサポート。
+- pymysql: MySQLデータベースとの接続をサポートするPythonの純粋なPython MySQLクライアントです。
+- pydantic: データバリデーションとデータのシリアル化/デシリアル化をサポートするライブラリ。FastAPIとの統合が深いです。
+- sqlalchemy: SQLツールキットおよびObject-Relational Mapping (ORM) ライブラリです。
+- databases: SQLAlchemyと非同期データベースの統合をサポートするライブラリです。
+- pydantic[email]: pydanticのemailバリデーションサポートです。
 
 # プロジェクトフォルダ構成
 
@@ -149,8 +149,8 @@ app.include_router(user.router)
 
 # database/database.py
 
-SQLAlchemyは同期的なセッションメソッドを使用。
-非同期的なセッションメソッドの変更方法は割愛する。
+SQLAlchemyは同期的なセッションメソッドを使用します。
+非同期的なセッションメソッドの変更方法は割愛します。
 
 ```python
 from sqlalchemy import create_engine
@@ -253,7 +253,7 @@ async def create_user(user: UserCreate, db: Session = Depends(get_db)):
 
 ### PostmanでAPI確認(POST)
 
-ユーザーデータをリクエストボディに設定し実行する。
+ユーザーデータをリクエストボディに設定し実行します。
 レスポンスデータでユーザーデータが返ってきたので成功！
 
 ![Postman結果(POST)](https://storage.googleapis.com/zenn-user-upload/714f1a9e20c6-20231027.png)
@@ -308,7 +308,7 @@ def read_user_by_id(user_id: int, db: Session = Depends(get_db)):
 
 ### PostmanでAPI確認(GET)
 
-URLの「URLパラメータ」に取得したいユーザーIDを設定。
+URLの「URLパラメータ」に取得したいユーザーIDを設定します。
 レスポンスデータでユーザーデータが返ってきたので成功！
 
 ![Postman結果(GET)](https://storage.googleapis.com/zenn-user-upload/363598208c61-20231027.png)
@@ -339,8 +339,8 @@ async def update_user(user_id: int, user_update: UserUpdate, db: Session = Depen
 
 ### PostmanでAPI確認(PUT)
 
-URLの「URLパラメータ」に更新したいユーザーIDを設定。
-更に変更したいユーザーデータをリクエストボディに設定し実行する。
+URLの「URLパラメータ」に更新したいユーザーIDを設定します。
+更に変更したいユーザーデータをリクエストボディに設定し実行します。
 レスポンスデータでユーザーデータが格納され、変更データとなっており成功！
 
 ![Postman結果(PUT)](https://storage.googleapis.com/zenn-user-upload/3a242e347be6-20231027.png)
@@ -362,7 +362,7 @@ async def delete_user(user_id: int, db: Session = Depends(get_db)):
 
 ### PostmanでAPI確認(DELETE)
 
-URLの「URLパラメータ」に削除したいユーザーIDを設定。
+URLの「URLパラメータ」に削除したいユーザーIDを設定します。
 エラーが返ってこない場合は成功！
 
 ![Postman結果(DELETE)](https://storage.googleapis.com/zenn-user-upload/4ad51123d0f1-20231027.png)
