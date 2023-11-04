@@ -8,8 +8,8 @@ published: true
 
 # 🎯目的
 
-- 外部キーのあるテーブルが追加された。結合やグループ化してデータを取得する。
-- FastAPIで複雑なデータを取得する。
+- 外部キーのあるテーブルが追加された。結合やグループ化してデータを取得します。
+- FastAPIで複雑なデータを取得します。
 
 # 前回の内容
 
@@ -19,7 +19,7 @@ https://zenn.dev/kou_kawa/articles/08-first-mysql-fastapi
 
 # テーブル仕様
 
-前回のテーブルを修正する。修正したテーブルは以下とする。
+前回のテーブルを修正する。修正したテーブルは以下とします。
 
 ```mermaid
 erDiagram
@@ -48,8 +48,8 @@ erDiagram
 
 # API仕様
 
-今回はpost側のテーブルのCRUD操作のAPIは割愛する。
-user側のテーブルの取得APIを修正する。
+今回はpost側のテーブルのCRUD操作のAPIは割愛します。
+user側のテーブルの取得APIを修正します。
 
 ```
 # method: GET データの取得
@@ -62,7 +62,7 @@ user側のテーブルの取得APIを修正する。
 
 # 使用バージョン
 
-今回使用するバージョンは以下とする。
+今回使用するバージョンは以下とします。
 
 - Python  3.10.7
 - FastAPI 0.104.0
@@ -95,7 +95,7 @@ user側のテーブルの取得APIを修正する。
 
 # models/sqlalchemy/user.py
 
-「posts = relationship("Post", back_populates="user")」を追加。
+「posts = relationship("Post", back_populates="user")」を追加します。
 
 ```python
 from sqlalchemy import Boolean, Column, Integer, String, DateTime, func
@@ -221,7 +221,7 @@ def read_user_by_id(user_id: int, db: Session = Depends(get_db)):
 
 ### PostmanでAPI確認(GET)
 
-URLの「URLパラメータ」に取得したいユーザーIDを設定。
+URLの「URLパラメータ」に取得したいユーザーIDを設定します。
 レスポンスデータでユーザーデータが返ってきたので成功！
 
 ![Postman結果(GET)](https://storage.googleapis.com/zenn-user-upload/688e2dd8c373-20231027.png)
@@ -265,6 +265,6 @@ def read_user_group_user_id(db: Session = Depends(get_db)):
 
 # 終わりに
 
-この記事を通じて、FastAPIとSQLAlchemyを使用して、外部キーを持つテーブルからの複雑なデータ取得方法を試した。これらのツールを使用することで、効率的にデータを操作し、APIを構築することができる。
+この記事を通じて、FastAPIとSQLAlchemyを使用して、外部キーを持つテーブルからの複雑なデータ取得方法を試しました。これらのツールを使用することで、効率的にデータを操作し、APIを構築することができます。
 
 最後までお読みいただきありがとうございました！
