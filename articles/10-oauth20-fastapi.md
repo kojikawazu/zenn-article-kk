@@ -3,7 +3,7 @@ title: "FastAPIでOAuth2.0認証"
 emoji: "📚"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["python", "fastapi", "GCP"]
-published: false
+published: true
 ---
 
 # 🎯目的
