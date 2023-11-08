@@ -230,14 +230,14 @@ const Home: React.FC = () => {
 export default Home;
 ```
 
-# 実行結果
+# 🎉実行結果
 
 地図の表示に成功しました！
 
 例：「東京の中心部の地図表示結果」
 ![地図表示結果](https://storage.googleapis.com/zenn-user-upload/944e1fbbced1-20231109.png)
 
-# 終わりに
+# ✨終わりに
 
 Next.js、TypeScript、Google Maps JavaScript APIを使って地図の表示に成功しました。これで基本的な土台ができました。
 次はどんな機能を追加できるか試してみたいと思います。
