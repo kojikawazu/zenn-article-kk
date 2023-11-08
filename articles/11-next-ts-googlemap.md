@@ -3,7 +3,7 @@ title: "Next.js + TypeScript + Google Map JavaScript APIを試してみる"
 emoji: "📚"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["typescript", "nextjs", "googlemap"]
-published: false
+published: true
 ---
 
 # 🎯目的
