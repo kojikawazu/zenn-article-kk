@@ -3,7 +3,7 @@ title: "FastAPIでAPIを使ってみよう①"
 emoji: "🚀"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["fastapi", "python"]
-published: false
+published: true
 ---
 
 # 🎯目的
@@ -166,7 +166,7 @@ def get_hotpepper_data():
     
     # (省略)
 
-    # 店名のみ取得する
+    # 店舗名のみ取得する
     shop_names = [shop['name'] for shop in data["results"][RESPONSE_TARGET]]
 
     # データを返す
