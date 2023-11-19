@@ -3,7 +3,7 @@ title: "FastAPIでAPIを使ってみよう①"
 emoji: "🚀"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["fastapi", "python"]
-published: false
+published: true
 ---
 
 # 🎯目的
