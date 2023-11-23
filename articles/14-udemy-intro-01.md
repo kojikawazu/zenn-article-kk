@@ -1,5 +1,5 @@
 ---
-title: "udemyで学ぶ：次世代スキル習得のための10の教材"
+title: "udemyで学ぶ：スキル習得のための10の教材"
 emoji: "✍"
 type: "idea" # tech: 技術記事 / idea: アイデア
 topics: ["udemy"]
