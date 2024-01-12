@@ -2,8 +2,8 @@
 title: "Terraformの道：AWSでインフラをコード化する旅1"
 emoji: "✍"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: ["terraform", "aws"]
-published: false
+topics: ["terraform", "aws", "VPC"]
+published: true
 ---
 
 # 🎯目的
