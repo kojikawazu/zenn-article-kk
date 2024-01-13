@@ -109,7 +109,7 @@ git clone https://github.com/tfutils/tfenv.git .tfenv
 - ホームディレクトリの直下に.bashrcファイルを作成（または編集）し、以下の内容を追加する。
 
 ```bash
-export PATH=$PATH:/c/Users/nanai/.tfenv/bin
+export PATH=$PATH:/c/Users/[ユーザー名]/.tfenv/bin
 ```
 
 - Bashターミナルを再起動し、tfenvが正常に動作するかを確認する。
