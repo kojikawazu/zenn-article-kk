@@ -14,6 +14,12 @@ published: false
 
 https://zenn.dev/kou_kawa/articles/15-terraform-aws-first
 
+# AWSアーキテクチャー図
+
+今回のAWSのアーキテクチャー図は以下となる。
+
+![構築](https://storage.googleapis.com/zenn-user-upload/228ddbe517cc-20240114.png)
+
 # ネットワーク構築
 
 まずはネットワークの構築から行う。以前作成したVPC環境内に構築していく。
@@ -243,7 +249,7 @@ data "aws_ami" "app" {
 AWSキーペアを追加し、EC2インスタンスへの安全なSSHアクセスを可能にする。キーペアはインスタンスのセキュリティとアクセス制御に不可欠となる。
 
 ```tf
-# key_pair.tf
+# app_server.tf
 
 # ---------------------------------------------
 # key pair(追加)
@@ -260,6 +266,62 @@ resource "aws_key_pair" "keypair" {
 }
 ```
 
+## EC2のIAMロールの追加
+
+EC2用のIAMロールを設定する際、これはインスタンスのセキュリティとアクセス権限を管理する上で重要。IAMロールにより、EC2インスタンスは他のAWSサービスに安全にアクセスでき、必要な権限を効率的に管理できる。
+
+```tf
+# iam.tf
+
+# ---------------------------------------------
+# インスタンスプロフィール
+# ---------------------------------------------
+resource "aws_iam_instance_profile" "app_ec2_profile" {
+  name = aws_iam_role.app_iam_role.name
+  role = aws_iam_role.app_iam_role.name
+}
+
+# ---------------------------------------------
+# IAM role
+# ---------------------------------------------
+resource "aws_iam_role" "app_iam_role" {
+  name               = "${var.project}-${var.environment}-app-iam-role"
+  assume_role_policy = data.aws_iam_policy_document.ec2_assume_role.json
+}
+
+# ---------------------------------------------
+# 信頼ポリシー
+# ---------------------------------------------
+data "aws_iam_policy_document" "ec2_assume_role" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["ec2.amazonaws.com"]
+    }
+  }
+}
+
+# ---------------------------------------------
+# ロールポリシーアタッチ
+# ---------------------------------------------
+resource "aws_iam_role_policy_attachment" "app_iam_role_ec2_readonly" {
+  role       = aws_iam_role.app_iam_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ReadOnlyAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "app_iam_role_ssm_managed" {
+  role       = aws_iam_role.app_iam_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
+resource "aws_iam_role_policy_attachment" "app_iam_role_ssm_readonly" {
+  role       = aws_iam_role.app_iam_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMReadOnlyAccess"
+}
+```
+
 ## EC2
 
 最後に、EC2インスタンスを設定する。ここでは、選択したインスタンスタイプ、AMI、セキュリティグループの重要性について説明する。また、user_data を使ってインスタンスの初期設定を自動化する方法についても触れる。
@@ -271,14 +333,18 @@ resource "aws_key_pair" "keypair" {
 # EC2 instance(追加)
 # ---------------------------------------------
 resource "aws_instance" "app_server" {
-  ami           = data.aws_ami.app.id
-  instance_type = "t2.micro"
-  subnet_id     = aws_subnet.public_subnet_1a.id
+  ami                         = data.aws_ami.app.id
+  instance_type               = "t2.micro"
+  subnet_id                   = aws_subnet.public_subnet_1a.id
+  associate_public_ip_address = true
 
   # セキュリティグループ
   vpc_security_group_ids = [
     aws_security_group.opmng_sg.id
   ]
+
+  # インスタンスプロフィール(IAMロール)
+  iam_instance_profile = aws_iam_instance_profile.app_ec2_profile.name
 
   # キーペア
   key_name = aws_key_pair.keypair.key_name
