@@ -1,5 +1,5 @@
 ---
-title: "Terraformの道：AWSでインフラをコード化する旅2"
+title: "Terraformの道1：EC2用の環境構築をコード化"
 emoji: "📜"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["terraform", "aws"]
