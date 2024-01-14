@@ -124,7 +124,7 @@ resource "aws_route" "public_rt_igw_r" {
 # opmng security group
 resource "aws_security_group" "opmng_sg" {
   name        = "${var.project}-${var.environment}-opmng-sg"
-  description = "operation management role security group"
+  description = "Operation Management Security Group"
   vpc_id      = aws_vpc.vpc.id
 
   tags = {
