@@ -1,5 +1,5 @@
 ---
-title: "Terraformの道：AWSでインフラをコード化する旅3"
+title: "Terraformの道3：Packerを使用したAMIのコード化"
 emoji: "📜"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["terraform", "aws", "packer"]
