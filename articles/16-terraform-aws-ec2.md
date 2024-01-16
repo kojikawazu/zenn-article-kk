@@ -20,7 +20,7 @@ https://zenn.dev/kou_kawa/articles/15-terraform-aws-first
 
 ![構築](https://storage.googleapis.com/zenn-user-upload/228ddbe517cc-20240114.png)
 
-## 変数定義追加
+# 変数定義追加
 
 IPアドレスやポート番号を変数定義する。
 
