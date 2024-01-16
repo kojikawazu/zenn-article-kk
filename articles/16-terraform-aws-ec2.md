@@ -20,6 +20,47 @@ https://zenn.dev/kou_kawa/articles/15-terraform-aws-first
 
 ![構築](https://storage.googleapis.com/zenn-user-upload/228ddbe517cc-20240114.png)
 
+## 変数定義追加
+
+IPアドレスやポート番号を変数定義する。
+
+```tf
+# main.tf
+
+# 変数名：public_1a_address
+# 型：string
+variable "public_1a_address" {
+  type = string
+}
+
+# 変数名：http_port
+# 型：number
+variable "http_port" {
+  type = number
+}
+
+# 変数名：https_port
+# 型：number
+variable "https_port" {
+  type = number
+}
+
+# 変数名：ssh_port
+# 型：number
+variable "ssh_port" {
+  type = number
+}
+```
+
+```tf
+# terraform.tfvars
+
+public_1a_address  = "[パブリック1aのIPアドレス]/24"
+http_port          = [HTTPのポート番号]
+https_port         = [HTTPSのポート番号]
+ssh_port           = [ssh接続のポート番号]
+```
+
 # ネットワーク構築
 
 まずはネットワークの構築から行う。以前作成したVPC環境内に構築していく。
@@ -43,7 +84,7 @@ EC2インスタンス用のサブネットを用意する際、パブリック�
 resource "aws_subnet" "public_subnet_1a" {
   vpc_id                  = aws_vpc.vpc.id
   availability_zone       = "ap-northeast-1a"
-  cidr_block              = "192.168.11.0/24"
+  cidr_block              = var.public_1a_address
   map_public_ip_on_launch = true
 
   tags = {
@@ -139,8 +180,8 @@ resource "aws_security_group_rule" "opmng_in_ssh" {
   security_group_id = aws_security_group.opmng_sg.id
   type              = "ingress"
   protocol          = "tcp"
-  from_port         = 22
-  to_port           = 22
+  from_port         = var.ssh_port
+  to_port           = var.ssh_port
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
@@ -149,8 +190,8 @@ resource "aws_security_group_rule" "opmng_in_http" {
   security_group_id = aws_security_group.opmng_sg.id
   type              = "ingress"
   protocol          = "tcp"
-  from_port         = 80
-  to_port           = 80
+  from_port         = var.http_port
+  to_port           = var.http_port
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
@@ -159,8 +200,8 @@ resource "aws_security_group_rule" "opmng_out_http" {
   security_group_id = aws_security_group.opmng_sg.id
   type              = "egress"
   protocol          = "tcp"
-  from_port         = 80
-  to_port           = 80
+  from_port         = var.http_port
+  to_port           = var.http_port
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
@@ -169,8 +210,8 @@ resource "aws_security_group_rule" "opmng_in_https" {
   security_group_id = aws_security_group.opmng_sg.id
   type              = "ingress"
   protocol          = "tcp"
-  from_port         = 443
-  to_port           = 443
+  from_port         = var.https_port
+  to_port           = var.https_port
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
@@ -179,8 +220,8 @@ resource "aws_security_group_rule" "opmng_out_https" {
   security_group_id = aws_security_group.opmng_sg.id
   type              = "egress"
   protocol          = "tcp"
-  from_port         = 443
-  to_port           = 443
+  from_port         = var.https_port
+  to_port           = var.https_port
   cidr_blocks       = ["0.0.0.0/0"]
 }
 ```
