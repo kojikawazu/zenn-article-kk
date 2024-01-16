@@ -3,7 +3,7 @@ title: "Terraformの道3：Packerを使用したAMIのコード化"
 emoji: "📜"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["terraform", "aws", "packer"]
-published: false
+published: true
 ---
 
 # 🎯目的
@@ -61,7 +61,7 @@ AWS CLI管理用とPacker用の2つのIAMユーザーが必要。AWS CLI管理�
 aws configure --profile packer
 ```
 
-## 1-2. Packerのインストール
+## 2-2. Packerのインストール
 
 Packerのインストールは以下の手順で行う。
 
