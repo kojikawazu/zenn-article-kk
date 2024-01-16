@@ -213,6 +213,12 @@ variable "project" {
 variable "environment" {
   type = string
 }
+
+# 変数名：vpc_address
+# 型：string
+variable "vpc_address" {
+  type = string
+}
 ```
 
 ```tf
@@ -220,6 +226,7 @@ variable "environment" {
 # 変数定義
 project     = "sample-project"
 environment = "dev"
+vpc_address = "[IPアドレス]/20"
 ```
 
 ```tf
@@ -228,7 +235,7 @@ environment = "dev"
 # VPC
 # ---------------------------------------------
 resource "aws_vpc" "vpc" {
-  cidr_block                       = "[IPアドレス]/20"
+  cidr_block                       = var.vpc_address
   instance_tenancy                 = "default"
   enable_dns_support               = true
   enable_dns_hostnames             = true
