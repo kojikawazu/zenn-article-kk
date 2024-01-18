@@ -16,7 +16,34 @@ published: false
 
 # AWSアーキテクチャー図
 
-![アーキテクチャー図](https://storage.googleapis.com/zenn-user-upload/5b13bf4cfb86-20240114.png)
+![アーキテクチャー図](https://storage.googleapis.com/zenn-user-upload/d013b5a2ac8f-20240118.png)
+
+# 変数定義追加
+
+IPアドレスやポート番号を変数定義する。
+
+```tf
+# main.tf
+
+# 変数名：public_1c_address
+# 型：string
+variable "public_1c_address" {
+  type = string
+}
+
+# 変数名：app_port
+# 型：number
+variable "app_port" {
+  type = number
+}
+```
+
+```tf
+# terraform.tfvars
+
+public_1c_address  = "[パブリック1cのIPアドレス]/24"
+app_port           = [アプリケーション用のポート番号]
+```
 
 # ネットワーク追加構築
 
@@ -36,7 +63,7 @@ ELBを使用する場合は、複数のAZが設定された複数のサブネッ
 resource "aws_subnet" "public_subnet_1c" {
   vpc_id                  = aws_vpc.vpc.id
   availability_zone       = "ap-northeast-1c"
-  cidr_block              = "192.168.12.0/24"
+  cidr_block              = var.public_1c_address
   map_public_ip_on_launch = true
 
   tags = {
@@ -48,7 +75,7 @@ resource "aws_subnet" "public_subnet_1c" {
 }
 ```
 
-このコードでは、ap-northeast-1c ゾーンに新しいパブリックサブネットを作成している。このサブネットは、ELBによるトラフィックの管理と分散に不可欠。サブネットは、特定のCIDRブロック（この場合は 192.168.12.0/24）に割り当てられ、外部からのIPアドレス割り当てが可能になる。
+このコードでは、ap-northeast-1c ゾーンに新しいパブリックサブネットを作成している。このサブネットは、ELBによるトラフィックの管理と分散に不可欠。サブネットは、特定のCIDRブロック（この場合は 変数：public_1c_address）に割り当てられ、外部からのIPアドレス割り当てが可能になる。
 
 ## ルートテーブルの追加構築
 
@@ -100,8 +127,8 @@ resource "aws_security_group_rule" "web_in_http" {
   security_group_id = aws_security_group.web_sg.id
   type              = "ingress"
   protocol          = "tcp"
-  from_port         = 80
-  to_port           = 80
+  from_port         = var.http_port
+  to_port           = var.http_port
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
@@ -109,22 +136,22 @@ resource "aws_security_group_rule" "web_in_https" {
   security_group_id = aws_security_group.web_sg.id
   type              = "ingress"
   protocol          = "tcp"
-  from_port         = 443
-  to_port           = 443
+  from_port         = var.https_port
+  to_port           = var.https_port
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
-resource "aws_security_group_rule" "web_out_tcp3000" {
+resource "aws_security_group_rule" "web_out_app" {
   security_group_id        = aws_security_group.web_sg.id
   type                     = "egress"
   protocol                 = "tcp"
-  from_port                = 3000
-  to_port                  = 3000
+  from_port                = var.app_port
+  to_port                  = var.app_port
   source_security_group_id = aws_security_group.app_sg.id
 }
 ```
 
-この設定では、インバウンドでポート80（HTTP）と443（HTTPS）が許可され、アウトバウンドではポート3000を介してWebからAppへの通信が可能になる。これにより、Webサーバーは安全にアプリケーションサーバーと通信できる。
+この設定では、インバウンドで ポート(変数：http_port) と ポート(変数：https_port) が許可され、アウトバウンドでは ポート(変数：app_port) を介してWebからAppへの通信が可能になる。これにより、Webサーバーは安全にアプリケーションサーバーと通信できる。
 
 ## App用セキュリティグループ
 
@@ -146,17 +173,17 @@ resource "aws_security_group" "app_sg" {
   }
 }
 
-resource "aws_security_group_rule" "app_in_tcp3000" {
+resource "aws_security_group_rule" "app_in_app" {
   security_group_id        = aws_security_group.app_sg.id
   type                     = "ingress"
   protocol                 = "tcp"
-  from_port                = 3000
-  to_port                  = 3000
+  from_port                = var.app_port
+  to_port                  = var.app_port
   source_security_group_id = aws_security_group.web_sg.id
 }
 ```
 
-この設定により、ポート3000を介したWebサーバーからのインバウンド通信のみが許可される。外部からの直接的なアクセスは防がれ、セキュリティが保たれる。
+この設定により、ポート(変数：app_port) を介したWebサーバーからのインバウンド通信のみが許可される。外部からの直接的なアクセスは防がれ、セキュリティが保たれる。
 
 ## 運用管理用セキュリティグループ
 
@@ -182,17 +209,17 @@ resource "aws_security_group_rule" "opmng_in_ssh" {
   security_group_id = aws_security_group.opmng_sg.id
   type              = "ingress"
   protocol          = "tcp"
-  from_port         = 22
-  to_port           = 22
+  from_port         = var.ssh_port
+  to_port           = var.ssh_port
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
-resource "aws_security_group_rule" "opmng_in_tcp3000" {
+resource "aws_security_group_rule" "opmng_in_app" {
   security_group_id = aws_security_group.opmng_sg.id
   type              = "ingress"
   protocol          = "tcp"
-  from_port         = 3000
-  to_port           = 3000
+  from_port         = var.app_port
+  to_port           = var.app_port
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
@@ -200,8 +227,8 @@ resource "aws_security_group_rule" "opmng_in_http" {
   security_group_id = aws_security_group.opmng_sg.id
   type              = "ingress"
   protocol          = "tcp"
-  from_port         = 80
-  to_port           = 80
+  from_port         = var.http_port
+  to_port           = var.http_port
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
@@ -209,8 +236,8 @@ resource "aws_security_group_rule" "opmng_out_http" {
   security_group_id = aws_security_group.opmng_sg.id
   type              = "egress"
   protocol          = "tcp"
-  from_port         = 80
-  to_port           = 80
+  from_port         = var.http_port
+  to_port           = var.http_port
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
@@ -218,13 +245,13 @@ resource "aws_security_group_rule" "opmng_out_https" {
   security_group_id = aws_security_group.opmng_sg.id
   type              = "egress"
   protocol          = "tcp"
-  from_port         = 443
-  to_port           = 443
+  from_port         = var.https_port
+  to_port           = var.https_port
   cidr_blocks       = ["0.0.0.0/0"]
 }
 ```
 
-この設定により、ポート22（SSH）、3000（App用通信）、および80/443（HTTP/HTTPS）のインバウンド通信が許可される。また、アウトバウンドではHTTPおよびHTTPS通信が可能となり、運用管理チームがシステムを適切に監視し、管理するための通信が確保される。
+この設定により、ポート(変数：ssh_port)(SSH)、(変数：app_port)(App用通信)、および(変数：http_port)/(変数：https_port)(HTTP/HTTPS)のインバウンド通信が許可される。また、アウトバウンドではHTTPおよびHTTPS通信が可能となり、運用管理チームがシステムを適切に監視し、管理するための通信が確保される。
 
 # ELB(ALB)
 
@@ -254,7 +281,7 @@ resource "aws_lb" "alb" {
 # ---------------------------------------------
 resource "aws_lb_listener" "aws_listener_http" {
   load_balancer_arn = aws_lb.alb.arn
-  port              = 80
+  port              = var.http_port
   protocol          = "HTTP"
 
   default_action {
@@ -268,7 +295,7 @@ resource "aws_lb_listener" "aws_listener_http" {
 # ---------------------------------------------
 resource "aws_lb_target_group" "alb_target_group" {
   name     = "${var.project}-${var.environment}-app-tg"
-  port     = 3000
+  port     = var.app_port
   protocol = "HTTP"
   vpc_id   = aws_vpc.vpc.id
 
@@ -315,6 +342,7 @@ sudo systemctl enable nginx
 ```
 
 このスクリプトでは、nginxのインストールと設定を自動化している。特に、リスニングポートをデフォルトの80から3000に変更して、ALBの設定と一致させる。
+(ポート番号は各設計内容に合わせてください)
 
 # インフラ反映後の確認
 
