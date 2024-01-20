@@ -119,7 +119,7 @@ resource "aws_route53_record" "route53_record" {
 
 ![ドメイン確認](https://storage.googleapis.com/zenn-user-upload/4136734776db-20240114.png)
 
-![NGINX確認](https://storage.googleapis.com/zenn-user-upload/0edb0ba9ac79-20240114.png)
+![NGINX確認](https://storage.googleapis.com/zenn-user-upload/31c560b1a5f0-20240120.png)
 
 # さいごに
 
