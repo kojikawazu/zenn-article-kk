@@ -22,11 +22,11 @@ HashiCorpによって開発されたオープンソースのツールで、自�
 
 # Packerの環境構築
 
-1. AWS CLIインストール
-2. 作業用IAMユーザー作成
-3. Git Bashのインストール
-4. Packerのインストール
-5. git-secretsのインストール
+1. AWS CLIインストールします
+2. 作業用IAMユーザー作成します
+3. Git Bashのインストールします
+4. Packerのインストールします
+5. git-secretsのインストールします
 
 今回は、作業用IAMユーザーの作成とPackerのインストールに焦点を当てます。
 
