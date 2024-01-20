@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2024-01-20T08:25:20.315Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" etag="HqKcEwEPk8rsWxZ_Xjkt" version="22.1.21" type="device">
+<mxfile host="app.diagrams.net" modified="2024-01-20T09:18:02.654Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" etag="kLxpgeuFmn70TTT0X_C3" version="22.1.21" type="device">
   <diagram name="ページ1" id="mnPL-wJ1XfXDH14uQYT9">
-    <mxGraphModel dx="1844" dy="948" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1437" dy="569" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -55,7 +55,7 @@
           <mxGeometry x="220" y="230" width="78" height="78" as="geometry" />
         </mxCell>
         <mxCell id="1S5SFtDm_Tq1YHQfRTVd-8" value="Target group" style="fillColor=none;strokeColor=#5A6C86;dashed=1;verticalAlign=top;fontStyle=0;fontColor=#5A6C86;whiteSpace=wrap;html=1;" parent="9SZ4IUXA4r9wMpmDnjR2-2" vertex="1">
-          <mxGeometry x="190" y="210" width="130" height="140" as="geometry" />
+          <mxGeometry x="194" y="199" width="130" height="140" as="geometry" />
         </mxCell>
         <mxCell id="9SZ4IUXA4r9wMpmDnjR2-4" value="" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#8C4FFF;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.internet_gateway;" parent="9SZ4IUXA4r9wMpmDnjR2-1" vertex="1">
           <mxGeometry x="10" y="280" width="60" height="60" as="geometry" />
