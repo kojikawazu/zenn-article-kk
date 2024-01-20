@@ -22,7 +22,7 @@ https://zenn.dev/kou_kawa/articles/18-terraform-aws-elb
 
 以下のアーキテクチャー図は、Route53を導入した後のAWS環境を示しています。この導入により、アプリケーションはカスタムドメイン名でアクセス可能になります。
 
-![アーキテクチャー図](https://storage.googleapis.com/zenn-user-upload/0e83eb475dc7-20240120.png)
+![アーキテクチャー図](https://storage.googleapis.com/zenn-user-upload/be7d06da7292-20240120.png)
 
 # 変数の追加
 
