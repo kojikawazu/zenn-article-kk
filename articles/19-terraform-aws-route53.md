@@ -12,17 +12,17 @@ published: false
 
 この記事では、AWSのRoute53を使用してドメイン名を設定し、ブラウザからのアクセスを可能にする方法をTerraformを用いて実装します。これにより、ウェブアプリケーションがドメイン名を介して公開され、よりプロフェッショナルでアクセスしやすい形でユーザーに提供されます。
 
-# AWSアーキテクチャー図
-
-以下のアーキテクチャー図は、Route53を導入した後のAWS環境を示しています。この導入により、アプリケーションはカスタムドメイン名でアクセス可能になります。
-
-![アーキテクチャー図](https://storage.googleapis.com/zenn-user-upload/0e83eb475dc7-20240120.png)
-
 # 前回の内容
 
 前回まではELB(ALB)の追加まで構築しました。その続きから始めます。
 
 https://zenn.dev/kou_kawa/articles/18-terraform-aws-elb
+
+# AWSアーキテクチャー図
+
+以下のアーキテクチャー図は、Route53を導入した後のAWS環境を示しています。この導入により、アプリケーションはカスタムドメイン名でアクセス可能になります。
+
+![アーキテクチャー図](https://storage.googleapis.com/zenn-user-upload/0e83eb475dc7-20240120.png)
 
 # 変数の追加
 
