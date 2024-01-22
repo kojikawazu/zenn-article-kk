@@ -1,5 +1,5 @@
 ---
-title: "Terraformの道6：ACLを導入しHTTPS対応"
+title: "Terraformの道6：ACMを導入しHTTPS対応"
 emoji: "📜"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["terraform", "aws"]
@@ -8,16 +8,25 @@ published: false
 
 # 🎯目的
 
-# ACM(SSL)の追加
+今回の目的は、AWS Certificate Manager(ACM)を導入して、HTTP接続からより安全なHTTPS接続に移行することになります。HTTPSはセキュリティが強化されており、データの機密性と完全性を保証します。
 
+# 前回の内容
 
+前回まではAmazon Web Services(AWS)上でRoute53を構築しました。その続きとして、この記事ではACMを導入し、HTTPSへの移行を実現します。
+
+https://zenn.dev/kou_kawa/articles/19-terraform-aws-route53
 
 # AWSアーキテクチャー図
 
-
-![アーキテクチャー図](https://storage.googleapis.com/zenn-user-upload/7c729ab78617-20240114.png)
+![アーキテクチャー図](https://storage.googleapis.com/zenn-user-upload/cc6fc8fa7944-20240122.png)
 
 # ACMの追加
+
+HTTPSへの移行にはSSL/TLS証明書が不可欠です。これを達成するために、まずはACMでSSL/TLS証明書を作成します。
+
+## SSL/TLS証明書を作成
+
+以下のコードは、ワイルドカード証明書をリクエストしています。これにより、指定されたドメインのすべてのサブドメインがカバーされます。
 
 ```tf
 # acm.tf
@@ -44,7 +53,14 @@ resource "aws_acm_certificate" "tokyo_cert" {
     aws_route53_zone.route53_zone
   ]
 }
+```
 
+## Route53を作成
+
+次に、ACMの証明書のDNS検証に必要なRoute53のDNSレコードを作成します。これは、ACMが発行する証明書が正しくドメインに紐づいていることを保証するために重要です。
+
+```tf
+# acm.tf
 resource "aws_route53_record" "route53_acm_dns_resolve" {
   for_each = {
     for dvo in aws_acm_certificate.tokyo_cert.domain_validation_options : dvo.domain_name => {
@@ -61,6 +77,14 @@ resource "aws_route53_record" "route53_acm_dns_resolve" {
   ttl             = 600
   records         = [each.value.record]
 }
+```
+
+## SSL/TLS証明書の検証
+
+最後に、ACMで発行されたSSL/TLS証明書の検証を行うためのリソースを作成します。このステップは、証明書が有効であり、適切に構成されていることを保証するために不可欠です。
+
+```tf
+# acm.tf
 
 resource "aws_acm_certificate_validation" "cert_valid" {
   certificate_arn         = aws_acm_certificate.tokyo_cert.arn
@@ -70,6 +94,8 @@ resource "aws_acm_certificate_validation" "cert_valid" {
 
 # ELBにHTTPS用のリソース追加
 
+HTTPS通信をサポートするために、AWS Elastic Load Balancer(ELB)にHTTPSリスナーを追加します。以下のコードは、HTTPSプロトコルを使用するリスナーを定義し、先ほど作成した ACMのSSL/TLS 証明書をELBに関連付けます。
+
 ```tf
 # elb.tf
 
@@ -78,7 +104,7 @@ resource "aws_acm_certificate_validation" "cert_valid" {
 # ---------------------------------------------
 resource "aws_lb_listener" "aws_listener_https" {
   load_balancer_arn = aws_lb.alb.arn
-  port              = 443
+  port              = var.https_port
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
   certificate_arn   = aws_acm_certificate.tokyo_cert.arn
@@ -90,21 +116,28 @@ resource "aws_lb_listener" "aws_listener_https" {
 }
 ```
 
+このリスナーは、HTTPSトラフィックを受け取り、定義されたターゲットグループに転送します。ssl_policyはセキュリティポリシーを指定し、安全な通信を保証します。
+
 # インフラ反映後の確認
 
-インフラの変更を適用した後は、Terraformのフォーマット、計画、適用の各ステップを実行して、設定が正しく反映されていることを確認する。今回のケースでは、「AWS Certificate Manager (ACM)」が構築されていることを確認する。
-初回は証明書が発行され、状況が「検証保留中」となる。
+インフラの変更を適用した後、Terraformの format、plan、apply の各コマンドを実行して、設定が正しく反映されていることを確認します。今回のケースでは、特にACMの設定が正しく行われているかを確認します。初回は証明書の発行状況が「検証保留中」と表示されます。
 
-CNAMEレコードを「お名前.com」に必要がある。
+また、ACMの証明書のDNS検証には、CNAMEレコードの設定が必要です。このレコードは、ドメインのDNSプロバイダー（例：「お名前.com」）に設定する必要があります。
 
 ![ACM確認](https://storage.googleapis.com/zenn-user-upload/9fd0adcd8c87-20240114.png)
 
+DNS設定後、ACMの管理コンソールで「検証済み」と表示されることを確認します。
+
 ![CNAMEレコード確認後](https://storage.googleapis.com/zenn-user-upload/043f096f8948-20240114.png)
 
-# HTTPSの接続確認
+## HTTPSの接続確認
 
-前回ドメイン確認したドメイン名で今回はhttps接続を行い、nginxが表示されるか確認する。
+HTTPS接続が正しく機能しているかを確認するために、前回設定したドメイン名でHTTPS接続を試みます。ブラウザでドメインにアクセスし、安全な接続が行われていること、そして予定通りにNginxのページが表示されることを確認してください。
 
 ![HTTPS確認](https://storage.googleapis.com/zenn-user-upload/f36185c0dced-20240114.png)
 
 # さいごに
+
+この記事では、Terraformを使用してAWS上でHTTPS対応のインフラを構築する方法を紹介しました。ACMでSSL/TLS証明書を作成し、Route53でDNS検証を行い、ELBにHTTPSリスナーを追加することで、安全な通信を実現しました。これらのステップを通じて、安全かつ効率的なインフラ管理の基礎を学ぶことができました。
+
+最後までお読みいただき、ありがとうございました！
