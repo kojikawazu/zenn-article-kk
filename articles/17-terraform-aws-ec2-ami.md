@@ -2,7 +2,7 @@
 title: "Terraformの道3：Packerを使用したAMIのコード化"
 emoji: "📜"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: ["terraform", "aws", "packer"]
+topics: ["terraform", "aws", "ec2", "packer"]
 published: true
 ---
 
