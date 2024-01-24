@@ -2,7 +2,7 @@
 title: "Terraformの道5：Route53でドメイン化"
 emoji: "📜"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: ["terraform", "aws"]
+topics: ["terraform", "aws", "ec2", "vpc", "iam", "route53"]
 published: true
 ---
 
