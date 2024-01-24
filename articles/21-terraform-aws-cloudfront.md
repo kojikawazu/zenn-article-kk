@@ -3,7 +3,7 @@ title: "Terraformの道7：CloudFrontを導入"
 emoji: "📜"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["terraform", "aws", "route53", "acm", "cloudfront"]
-published: false
+published: true
 ---
 
 # 🎯目的
