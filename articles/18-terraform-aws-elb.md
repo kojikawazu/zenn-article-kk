@@ -2,7 +2,7 @@
 title: "Terraformの道4：ELBの導入"
 emoji: "📜"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: ["terraform", "aws"]
+topics: ["terraform", "aws", "ec2", "vpc", "iam", "elb"]
 published: true
 ---
 
