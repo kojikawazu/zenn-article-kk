@@ -3,26 +3,24 @@ title: "Terraformの道5：Route53でドメイン化"
 emoji: "📜"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["terraform", "aws"]
-published: false
+published: true
 ---
 
 # 🎯目的
 
-# Route53の追加
-
 この記事では、AWSのRoute53を使用してドメイン名を設定し、ブラウザからのアクセスを可能にする方法をTerraformを用いて実装します。これにより、ウェブアプリケーションがドメイン名を介して公開され、よりプロフェッショナルでアクセスしやすい形でユーザーに提供されます。
-
-# AWSアーキテクチャー図
-
-以下のアーキテクチャー図は、Route53を導入した後のAWS環境を示しています。この導入により、アプリケーションはカスタムドメイン名でアクセス可能になります。
-
-![アーキテクチャー図](https://storage.googleapis.com/zenn-user-upload/0e83eb475dc7-20240120.png)
 
 # 前回の内容
 
 前回まではELB(ALB)の追加まで構築しました。その続きから始めます。
 
 https://zenn.dev/kou_kawa/articles/18-terraform-aws-elb
+
+# AWSアーキテクチャー図
+
+以下のアーキテクチャー図は、Route53を導入した後のAWS環境を示しています。この導入により、アプリケーションはカスタムドメイン名でアクセス可能になります。
+
+![アーキテクチャー図](https://storage.googleapis.com/zenn-user-upload/be7d06da7292-20240120.png)
 
 # 変数の追加
 
@@ -119,7 +117,7 @@ resource "aws_route53_record" "route53_record" {
 
 ![ドメイン確認](https://storage.googleapis.com/zenn-user-upload/4136734776db-20240114.png)
 
-![NGINX確認](https://storage.googleapis.com/zenn-user-upload/0edb0ba9ac79-20240114.png)
+![NGINX確認](https://storage.googleapis.com/zenn-user-upload/31c560b1a5f0-20240120.png)
 
 # さいごに
 
