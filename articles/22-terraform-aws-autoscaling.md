@@ -3,7 +3,7 @@ title: "Auto Scaling Groupを導入し、EC2インスタンスをスケーリン
 emoji: "📜"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["terraform", "aws", "route53", "acm", "autoscaling"]
-published: false
+published: true
 ---
 
 # 🎯目的
@@ -152,10 +152,10 @@ resource "aws_autoscaling_group" "app_asg" {
 
 ![AutoScaling確認](https://storage.googleapis.com/zenn-user-upload/8f96c0f5a773-20240115.png)
 
-![EC2インスタンス](https://storage.googleapis.com/zenn-user-upload/791a89e4c814-20240127.png)
+![EC2インスタンス](https://storage.googleapis.com/zenn-user-upload/9c6ce248e69c-20240127.png)
 
-3. 各インスタンスの外部IPアドレスでアプリケーション（例: nginx）を確認します。ポートは3000にしてください。
-4. 最後にHTTPSを介してアプリケーションへのアクセスを確認します。
+1. 各インスタンスの外部IPアドレスでアプリケーション（例: nginx）を確認します。ポートは3000にしてください。
+2. 最後にHTTPSを介してアプリケーションへのアクセスを確認します。
 
 ![NGINX確認](https://storage.googleapis.com/zenn-user-upload/6d5d48ae24c9-20240127.png)
 
