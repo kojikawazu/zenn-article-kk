@@ -3,7 +3,7 @@ title: "WSL(Ubuntu)環境上でSpringプロジェクトコンテナを効率的�
 emoji: "🔩"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["wsl", "ubuntu", "linux", "spring", "docker"]
-published: false
+published: true
 ---
 
 # 始めに
