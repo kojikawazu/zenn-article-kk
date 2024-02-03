@@ -3,7 +3,7 @@ title: "ECSとコード化を学ぶ"
 emoji: "📜"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["terraform", "aws", "ecs", "vpc", "cloudwatch"]
-published: false
+published: true
 ---
 
 # 🎯目的
