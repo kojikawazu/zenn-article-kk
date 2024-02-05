@@ -34,7 +34,7 @@ ECSとEC2（Elastic Compute Cloud）は、ともにAWSのコンピューティ�
 
 今回は1から構築するので、ECSの検証に特化したアーキテクチャにします。
 
-![AWSアーキテクチャ図](https://storage.googleapis.com/zenn-user-upload/3fca0f683024-20240203.png)
+![AWSアーキテクチャ図](https://storage.googleapis.com/zenn-user-upload/3d55a21fe99d-20240205.png)
 
 # Terraformでコード化
 
