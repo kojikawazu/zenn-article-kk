@@ -3,7 +3,7 @@ title: "Google Books APIを使ってみる ～Next.js + Laravel～"
 emoji: "📚"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["nextjs", "laravel", "javascript", "approuter", "breeze"]
-published: false
+published: true
 ---
 
 # 始めに
