@@ -3,7 +3,7 @@ title: "AWS App Runner + RDSにGitHub Actionsで自動デプロイする方法"
 emoji: "📚"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["aws", "githubactions", "terraform", "apprunner", "rds"]
-published: false
+published: true
 ---
 
 # はじめに
@@ -19,7 +19,7 @@ AWSを学び進める過程で、様々なサービスを触ってきました�
 
 将来的には、CodePipelineに関する知識を深めて、技術スタックを広げる予定です。
 
-その他の技術環境配下となります。
+その他スタックは以下となります。
 
 - バックエンド: Laravelフレームワークを使用したAPIアプリケーションの構築に焦点を当てています。
 - 実行環境: AWS App Runnerを選択しました。
