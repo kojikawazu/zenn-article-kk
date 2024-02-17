@@ -1,6 +1,6 @@
 ---
 title: "AWS App Runner + RDSにGitHub Actionsで自動デプロイする方法"
-emoji: "📚"
+emoji: "📝"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["aws", "githubactions", "terraform", "apprunner", "rds"]
 published: true
