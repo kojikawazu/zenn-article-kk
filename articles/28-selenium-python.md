@@ -3,7 +3,7 @@ title: "Seleniumを使ったWebアプリケーションテストの自動化"
 emoji: "⚙"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["selenium", "python", "chrome"]
-published: false
+published: true
 ---
 
 # はじめに
