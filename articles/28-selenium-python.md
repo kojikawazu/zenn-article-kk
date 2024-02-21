@@ -9,17 +9,18 @@ published: false
 # はじめに
 
 Webアプリケーションテストで[Selenium](https://www.selenium.dev/ja/documentation/)を学ぶ機会がありました。
-手動な画面操作を自動化し、テストの自動化へ紐づけるのは面白かったので共有します。
+手動な画面操作を自動化し、テストの自動化へと活かせるので記録に残します。
 
 # Seleniumとは
 
-Seleniumは、Webアプリケーションのテストを自動化するためのオープンソースツールセットです。主要なコンポーネントは以下の通りです。
+Seleniumは、Webアプリケーションのテストを自動化するためのオープンソースツールセットです。
+主要なコンポーネントは以下の通りです。
 
 - **Selenium WebDriver**: ブラウザをプログラムから直接制御し、ウェブページ上の要素を操作します。
 - **Selenium IDE**: テストケースの記録と再生を行うブラウザ拡張機能です。
 - **Selenium Grid**: テストスクリプトを複数のブラウザやOS上で並行して実行します。
 
-Seleniumは多言語に対応しており、開発者は既に使用しているプログラミング言語でテストスクリプトを作成できます。
+Seleniumは多言語に対応しているため、開発者は既に使用しているプログラミング言語を活用してテストスクリプトを作成することが可能です。Python、Java、C#など、多様な言語での利用が想定されています。
 
 :::message
 Seleniumの最近のバージョンは、**Python 3.6以降**での使用を想定しています。
@@ -28,13 +29,14 @@ Seleniumの最近のバージョンは、**Python 3.6以降**での使用を想�
 # Selenium動作環境の構築
 
 :::message
-WSL2を使用してWindows上のUbuntuでSeleniumを動かします。
-他環境はインターネットで調査の方よろしくお願いします。
+Windows Subsystem for Linux 2(WSL2)を使用してWindows上のUbuntu環境でSeleniumを動かします。
+他の環境での構築方法については、オンラインで探してください。
 :::
 
 ## ステップ1: Pythonのインストール
 
 UbuntuにはPythonがプリインストールされていますが、pipを別途インストールします。
+以下のコマンドを実行して、システムを最新の状態に更新し、pipをインストールします。
 
 ```bash
 # パッケージリストを最新の状態に更新する
@@ -51,8 +53,8 @@ pip3 -V
 
 ## ステップ2: Seleniumパッケージのインストール
 
-次にSeleniumパッケージをインストールします。
-以下コマンドを実行します。
+Seleniumを使用するには、Seleniumパッケージをインストールする必要があります。
+次のコマンドを実行して、Seleniumをインストールします。
 
 ```bash
 # Seleniumのインストール
@@ -62,9 +64,10 @@ pip3 install selenium
 pip3 show selenium
 ```
 
-## ステップ3: Google Chromeのインストール
+## ステップ3: Google ChromeとWebDriverのインストール
 
-Ubuntu上でChromeを動かす場合に使用します。その為、Google Chromeをインストールします。
+Seleniumテストを実行するためには、ブラウザと対応するWebDriverが必要です。
+以下の手順でGoogle ChromeとChrome WebDriverをインストールします。
 
 ```bash
 # Google Chromeのダウンロード:
@@ -78,13 +81,11 @@ google-chrome --version
 ```
 
 :::message
-WSL2のUbuntu上でChromeを立ち上げると文字化けします。[^1]
-その対策として、日本語パッケージ、日本語のフォントを追加します。
+WSL2のUbuntu上でGoogle Chromeを使用する際には、日本語表示の問題が生じることがあります。
+これを解決するために、日本語パッケージとフォントをインストールします。[^1]
 
 ```bash
-sudo apt install language-pack-ja
-sudo apt install fonts-ipafont
-sudo apt install fonts-ipaexfont
+sudo apt install language-pack-ja fonts-ipafont fonts-ipaexfont
 ```
 :::
 
@@ -96,12 +97,12 @@ ChromeDriverをインストールします。Google Chromeのバージョンに�
 # Chrome Driverのダウンロード
 # ダウンロードURLをChromeバージョンに合わせたChrome Driverバージョンにしてください
 wget https://chromedriver.storage.googleapis.com/121.0.6167.184/chromedriver_linux64.zip
-# ドライバーの解凍
+# ダウンロードしたファイルの解凍
 unzip chromedriver-linux64.zip
 cd chromedriver-linux64
-# コマンドを配置
+# 解凍したChromeDriverをシステムのPATHに追加
 sudo mv chromedriver /usr/local/bin/
-# コマンド確認
+# ChromeDriverが正しくインストールされたことを確認
 which chromedriver
 
 # (後処理)
@@ -111,35 +112,35 @@ rm -rf chromedriver-linux64
 
 ## ステップ5: Chrome自動起動確認
 
-Pythonコードを書いて、Chromeを自動起動してみます。
-今回は自動起動後、10秒待ち閉じるだけのコードとなります。
+Pythonスクリプトを使用してGoogle Chromeを自動で起動し、動作を確認します。
+以下のPythonコードは、Chromeを起動してGoogleのホームページにアクセスし、10秒後にブラウザを閉じます。
 
 ```py:main.py
 from selenium import webdriver
 import time
 
-# サービスの初期化
+# WebDriverのオプションを設定
 options = webdriver.ChromeOptions()
 options.add_experimental_option('excludeSwitches', ['enable-logging'])
-options.add_argument("--no-sandbox")
-options.add_argument("--lang=ja")
+options.add_argument("--no-sandbox")  # セキュリティ上の制限を回避
+options.add_argument("--lang=ja")     # 言語設定を日本語に
 
-# chrome driverの初期化
+# ChromeDriverを使用してWebDriverのインスタンスを作成
 driver = webdriver.Chrome(options=options)
 
-# Google Chromeへアクセス
+# Googleのホームページにアクセス
 driver.get('https://www.google.com/')
 
-# 10秒待つ
+# 10秒間待機
 time.sleep(10)
-# 閉じる
+# ブラウザを閉じる
 driver.quit()
 ```
 
 ## ステップ6: 結果確認
 
-Pythonコードを実行してみます。
-自動でChromeが起動し、自動で閉じたら成功です。
+Pythonスクリプトを実行することで、Seleniumの動作確認を行います。
+以下のコマンドを使用して、main.pyを実行します。自動でGoogle Chromeが起動し、指定したウェブページにアクセスした後、自動で閉じることが成功です。
 
 ```bash
 python3 main.py
@@ -148,6 +149,8 @@ python3 main.py
 ![Chrome結果](https://storage.googleapis.com/zenn-user-upload/0dcaf6c1d6c0-20240218.png)
 
 # Seleniumを使ったユニットテストを実施してみる
+
+以下のPythonコードは、Seleniumを使用してWebサイトの検索機能をテストするユニットテストです。このテストでは、tutorialsninjaのデモサイトを対象に、商品検索機能が期待通りに動作することを確認します。
 
 ```py
 import unittest
@@ -164,27 +167,21 @@ class SamplePageSearch(unittest.TestCase):
     このクラスはtutorialsninjaのデモサイトでunitテストを実施しています。
     """
     
-    # テスト前準備
     def setUp(self):
-        # サービスの初期化
+        """テスト前の準備を行います。"""
         self.options = webdriver.ChromeOptions()
         self.options.add_experimental_option('excludeSwitches', ['enable-logging'])
         self.options.add_argument("--no-sandbox")
 
-        # chrome driverの初期化
+        # ChromeDriverを使用してWebDriverのインスタンスを作成
         self.driver = webdriver.Chrome(options=self.options)
-
-        # アクセス
+        # サイトにアクセス
         self.driver.get('https://tutorialsninja.com/demo/index.php?route=product/search')
         # 画面最大化
         self.driver.maximize_window()
 
     def test_search_successed(self):
-        """商品検索機能が正しく動作するかテストします。
-        
-        検索ボックスにキーワードを入力し、結果が期待通りに表示されることを確認します。
-        """
-        
+        """商品検索機能が正しく動作するかテストします。"""
         search_box = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.ID, "input-search"))
         )
@@ -200,19 +197,38 @@ class SamplePageSearch(unittest.TestCase):
 
     # テスト後の後処理
     def tearDown(self):
-        # 10秒待つ
+        """テスト後の後処理を行います。"""
+        # 10秒待機する
         time.sleep(10)
-        # 閉じる
+        # ブラウザを閉じる
         self.driver.quit()
 
 if __name__ == "__main__":
     unittest.main()
 ```
 
+# テスト実行結果の確認
+
+Seleniumを使用したテストスクリプトの実行後、以下のような結果を確認します。
+
+1. **Chromeの自動起動と閉鎖**：Google Chromeが自動的に起動し、指定された操作を実行後に自動的に閉じることを確認します。成功すれば、Seleniumのセットアップと基本的な動作が正しく機能していることが示されます。
+
+2. **ユニットテストの結果**：Seleniumを使用したユニットテストを実行した場合、テストが成功し、期待された動作が確認できることを示す結果が得られます。テスト結果は、正しく構成されたテストケースが期待通りに動作し、特定の機能が正確に動作していることを検証します。
+
+## Chromeの自動起動確認
+
 ![Chrome確認2](https://storage.googleapis.com/zenn-user-upload/1d4b61d5bb82-20240219.png)
+
+## ユニットテストの結果
 
 ![テスト結果](https://storage.googleapis.com/zenn-user-upload/303fcd68131d-20240219.png)
 
+# さいごに
 
+Seleniumを使ったWebアプリケーションのUIテストを行ってみました。従来の手動テストに代わり、テスト仕様書に基づく自動化されたテストの実施が、効率的かつ正確なテストに繋がると感じました。Pythonを使用しましたが、Seleniumは複数のプログラミング言語に対応しており、プロジェクトのニーズや開発者のスキルセットに応じて選択することが可能です。さらに多くのツールや言語を試しながら、プロジェクトごとに最適なテスト自動化に繋げてたらと考えます。
+
+# 補足情報
+
+- **文字化け対策**：WSL2のUbuntu上でChromeを使用する際に遭遇する可能性がある文字化け問題に対する対策として、日本語パッケージとフォントのインストールが推奨されます。詳細は外部リンク文字化け対策を参照してください。
 
 [^1]: [文字化け対策](https://lef237.hatenablog.com/entry/2022/12/05/163550)
