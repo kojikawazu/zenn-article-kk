@@ -368,7 +368,7 @@ export class UserService {
 
 # モデルの実装
 
-GraphQLで使用するユーザーモデルを定義します。このモデルはGraphQLスキーマで使用され、クライアントに公開されるデータの構造を定義します。
+GraphQLで使用するユーザーモデルを定義します。このモデルはGraphQLスキーマで使用され、クライアントに公開されるデータの構造を定義します。デモの為、パスワードは平文とします。パスワードは暗号化し、DBで管理してください。
 
 ```ts:user.model.ts
 import { Field, Int, ObjectType } from "@nestjs/graphql";
@@ -627,6 +627,7 @@ import { PubSub } from 'graphql-subscriptions';
 import { UserService } from './user.service';
 // (省略)
 
+// PubSubインスタンス化
 const pubSub = new PubSub(); // 追加
 
 /**
@@ -653,10 +654,11 @@ export class UserResolver {
     // 追加
     /**
      * サブスクリプション
-     * @returns 
+     * @returns ユーザーデータ
      */
     @Subscription(returns => UserModel)
     userCreated() {
+        // userCreated の通知をリアルタイムでクライアントに送信する
         return pubSub.asyncIterator('userCreated');
     }
 }
