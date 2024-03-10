@@ -1,6 +1,6 @@
 ---
 title: "GraphQLをNestJSで使って学ぶ"
-emoji: "🧤"
+emoji: "📶"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["graphql", "nestjs"]
 published: false
