@@ -3,7 +3,7 @@ title: "Next.jsからGraphQLサーバーへアクセスしてみる"
 emoji: "🤝"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["graphql", "nestjs", "nextjs", "typescript", "apollo"]
-published: false
+published: true
 ---
 
 # はじめに
