@@ -1,6 +1,6 @@
 ---
-title: "Next.jsからGraphQLサーバーへのアクセス方法"
-emoji: "📶"
+title: "Next.jsからGraphQLサーバーへアクセスしてみる"
+emoji: "🤝"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["graphql", "nestjs", "nextjs", "typescript", "apollo"]
 published: false
