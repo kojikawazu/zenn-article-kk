@@ -2,8 +2,8 @@
 title: "AWS上でAnsibleを使ってみた体験記"
 emoji: "🔧"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: ["ansible", "aws"]
-published: false
+topics: ["ansible", "aws", "playbook"]
+published: true
 ---
 
 # はじめに
