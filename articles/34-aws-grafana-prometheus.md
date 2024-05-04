@@ -3,7 +3,7 @@ title: "Grafana,Prometheusを使った監視を学んでみた"
 emoji: "💻"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["grafana", "prometheus", "aws", "ec2"]
-published: false
+published: true
 ---
 
 # はじめに
