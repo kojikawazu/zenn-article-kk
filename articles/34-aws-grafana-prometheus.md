@@ -129,6 +129,8 @@ Grafanaは高度にカスタマイズ可能ですが、そのインターフェ�
 
 GrafanaとPrometheusをAWSクラウド上で利用するために、まずはEC2インスタンスを2つ用意します。1つは「Grafana用PC」、もう1つは「Node Exporter用PC」とします。具体的なインスタンスの起動手順は割愛します。
 
+ポートは「3000」、「9090」、「9100」、「9115」を使用しますので、開けておいてください。
+
 https://aws.amazon.com/console/
 
 # Grafanaの構築
