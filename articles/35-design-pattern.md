@@ -35,6 +35,78 @@ published: false
   - Template Method（テンプレートメソッド）
   - Visitor（ビジター）
 
+# 使い分けと適用例
+
+- Abstract Factory（アブストラクトファクトリー）パターン
+  - 使い分け: 具体的なクラスに依存せずに、一連の関連オブジェクトを生成する必要がある場合。
+  - 適用例: GUIライブラリで異なるテーマのウィジェットを生成する場合。
+- Builder（ビルダー）パターン
+  - 使い分け: 複雑なオブジェクトの生成手順を明確に分けたい場合や、生成過程を柔軟にしたい場合。
+  - 適用例: 複数のステップを経て生成されるドキュメントオブジェクト。
+- Factory Method（ファクトリーメソッド）パターン
+  - 使い分け: 生成するオブジェクトのクラスをサブクラスに任せたい場合。
+  - 適用例: プラグインシステムで異なるプラグインオブジェクトを生成する場合。
+- Prototype（プロトタイプ）パターン
+  - 使い分け: オブジェクトの生成コストが高い場合や、生成するオブジェクトの型を変更したくない場合。
+  - 適用例: 複雑なオブジェクトの複製（例：グラフィカルオブジェクト）。
+- Singleton（シングルトン）パターン
+  - 使い分け: アプリケーション全体で共有されるリソース（例：設定情報やログ管理）に使用。
+  - 適用例: ログシステム、設定管理。
+- Adapter（アダプター）パターン
+  - 使い分け: 既存のクラスを変更せずに新しいインターフェースに適合させたい場合。
+  - 適用例: 旧システムと新システムの統合。
+- Bridge（ブリッジ）パターン
+  - 使い分け: 抽象部分と実装部分を独立して拡張したい場合。
+  - 適用例: 複数のプラットフォームに対応するGUIツールキット。
+- Composite（コンポジット）パターン
+  - 使い分け: 再帰的な構造を持つデータを扱う場合。
+  - 適用例: ファイルシステムのディレクトリ構造。
+- Decorator（デコレーター）パターン
+  - 使い分け: オブジェクトのクラスを変更せずに、動的に機能を追加したい場合。
+  - 適用例: GUIウィジェットの拡張。
+- Facade（ファサード）パターン
+  - 使い分け: サブシステムの複雑さを隠蔽し、使いやすいインターフェースを提供したい場合。
+  - 適用例: 大規模ライブラリの簡素化されたインターフェース。
+- Flyweight（フライウェイト）パターン
+  - 使い分け: 多数の同種オブジェクトを効率的に扱いたい場合。
+  - 適用例: テキストエディタでの文字オブジェクトの共有。
+- Proxy（プロキシ）パターン
+  - 使い分け: オブジェクトへのアクセス制御、遅延初期化、リモートアクセスなどに使用。
+  - 適用例: 仮想プロキシ、リモートプロキシ、保護プロキシ。
+- Chain of Responsibility（責任の連鎖）パターン
+  - 使い分け: リクエストを処理するオブジェクトを動的に決定したい場合。
+  - 適用例: イベント処理システム、エラーハンドリング。
+- Command（コマンド）パターン
+  - 使い分け: ユーザー操作の履歴管理、取り消し、再実行を実装したい場合。
+  - 適用例: テキストエディタのUndo/Redo機能。
+- Interpreter（インタープリター）パターン
+  - 使い分け: 簡単な文法の解析や実行を行いたい場合。
+  - 適用例: 数式評価、構成ファイルのパース。
+- Iterator（イテレーター）パターン
+  - 使い分け: コレクションの要素に対して一貫した方法でアクセスしたい場合。
+  - 適用例: コレクションフレームワーク、ファイルシステムトラバース。
+- Mediator（メディエーター）パターン
+  - 使い分け: 多数のオブジェクトが相互に通信する必要がある場合。
+  - 適用例: GUIコンポーネントの相互作用、チャットシステム。
+- Memento（メメント）パターン
+  - 使い分け: オブジェクトの状態を保存し、復元する必要がある場合。
+  - 適用例: テキストエディタのUndo機能、ゲームのセーブポイント。
+- Observer（オブザーバー）パターン
+  - 使い分け: オブジェクトの状態変化を他のオブジェクトに通知したい場合。
+  - 適用例: GUIイベントシステム、データバインディング。
+- State（ステート）パターン
+  - 使い分け: オブジェクトの状態に応じた振る舞いを実装したい場合。
+  - 適用例: ユーザー認証システム（ログイン、ログアウト）、メディアプレイヤーの再生状態。
+- Strategy（ストラテジー）パターン
+  - 使い分け: 動的にアルゴリズムを変更したい場合。
+  - 適用例: ソートアルゴリズム、支払い方法の選択。
+- Template Method（テンプレートメソッド）
+  - 使い分け: アルゴリズムの骨組みを共通化し、具体的な処理をサブクラスで実装したい場合。
+  - 適用例: データ処理パイプライン、レポート生成。
+- Visitor（ビジター）パターン
+  - 使い分け: オブジェクト構造を変更せずに、新しい操作を追加したい場合。
+  - 適用例: 構文解析ツール、ドキュメント処理。
+
 
 # Abstract Factory（アブストラクトファクトリー）
 
@@ -100,7 +172,7 @@ GUIライブラリなど、複数の相互依存するコンポーネント（�
 
 異なるプラグインセット（例えば、エディタープラグイン、レンダラープラグイン）を動的にロードする必要がある場合。
 
-## サンプルコード
+## サンプルコード(Java、TypeScript、Python)
 
 :::details Javaコード
 ```java
@@ -438,6 +510,200 @@ APIクライアントを構築する際に、必要な設定（例えば、エ�
 - 設定ファイルのパース
 
 複数のオプションや設定が含まれる設定ファイルをパースし、オブジェクトとして表現する際に、ビルダーを使用して柔軟に構成する。
+
+## サンプルコード(Java、TypeScript、Python)
+
+:::details Javaコード
+```java
+public class House {
+    private String foundation;
+    private String structure;
+    private String roof;
+    private String interior;
+
+    private House(HouseBuilder builder) {
+        this.foundation = builder.foundation;
+        this.structure = builder.structure;
+        this.roof = builder.roof;
+        this.interior = builder.interior;
+    }
+
+    public static class HouseBuilder {
+        private String foundation;
+        private String structure;
+        private String roof;
+        private String interior;
+
+        public HouseBuilder setFoundation(String foundation) {
+            this.foundation = foundation;
+            return this;
+        }
+
+        public HouseBuilder setStructure(String structure) {
+            this.structure = structure;
+            return this;
+        }
+
+        public HouseBuilder setRoof(String roof) {
+            this.roof = roof;
+            return this;
+        }
+
+        public HouseBuilder setInterior(String interior) {
+            this.interior = interior;
+            return this;
+        }
+
+        public House build() {
+            return new House(this);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "House{" +
+                "foundation='" + foundation + '\'' +
+                ", structure='" + structure + '\'' +
+                ", roof='" + roof + '\'' +
+                ", interior='" + interior + '\'' +
+                '}';
+    }
+}
+```
+
+```java
+public class BuilderPatternExample {
+    public static void main(String[] args) {
+        House house = new House.HouseBuilder()
+                .setFoundation("Concrete")
+                .setStructure("Wood")
+                .setRoof("Tiles")
+                .setInterior("Modern")
+                .build();
+
+        System.out.println(house);
+    }
+}
+```
+:::
+
+:::details TypeScriptコード
+```typescript
+class House {
+    foundation: string;
+    structure: string;
+    roof: string;
+    interior: string;
+
+    constructor(builder: HouseBuilder) {
+        this.foundation = builder.foundation;
+        this.structure = builder.structure;
+        this.roof = builder.roof;
+        this.interior = builder.interior;
+    }
+
+    public static get Builder() {
+        return new HouseBuilder();
+    }
+}
+
+class HouseBuilder {
+    foundation: string;
+    structure: string;
+    roof: string;
+    interior: string;
+
+    setFoundation(foundation: string): HouseBuilder {
+        this.foundation = foundation;
+        return this;
+    }
+
+    setStructure(structure: string): HouseBuilder {
+        this.structure = structure;
+        return this;
+    }
+
+    setRoof(roof: string): HouseBuilder {
+        this.roof = roof;
+        return this;
+    }
+
+    setInterior(interior: string): HouseBuilder {
+        this.interior = interior;
+        return this;
+    }
+
+    build(): House {
+        return new House(this);
+    }
+}
+```
+
+```typescript
+const house = House.Builder
+    .setFoundation('Concrete')
+    .setStructure('Wood')
+    .setRoof('Tiles')
+    .setInterior('Modern')
+    .build();
+
+console.log(house);
+```
+:::
+
+:::details Pythonコード
+```python
+# Product
+class House:
+    def __init__(self, builder):
+        self.foundation = builder.foundation
+        self.structure = builder.structure
+        self.roof = builder.roof
+        self.interior = builder.interior
+
+    def __str__(self):
+        return f'House(foundation={self.foundation}, structure={self.structure}, roof={self.roof}, interior={self.interior})'
+
+
+class HouseBuilder:
+    def __init__(self):
+        self.foundation = None
+        self.structure = None
+        self.roof = None
+        self.interior = None
+
+    def set_foundation(self, foundation):
+        self.foundation = foundation
+        return self
+
+    def set_structure(self, structure):
+        self.structure = structure
+        return self
+
+    def set_roof(self, roof):
+        self.roof = roof
+        return self
+
+    def set_interior(self, interior):
+        self.interior = interior
+        return self
+
+    def build(self):
+        return House(self)
+```
+
+```python
+if __name__ == "__main__":
+    house = (HouseBuilder()
+             .set_foundation("Concrete")
+             .set_structure("Wood")
+             .set_roof("Tiles")
+             .set_interior("Modern")
+             .build())
+
+    print(house)
+```
+:::
 
 # Factory Method（ファクトリーメソッド）
 
