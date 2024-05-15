@@ -6,6 +6,11 @@ topics: ["java", "typescript", "python"]
 published: false
 ---
 
+# 前回の記事から
+
+今回は2つの記事に分けることになりました。
+こちらは[デザインパターン備忘録(前半)](https://zenn.dev/kou_kawa/articles/35-design-pattern-01)からの続きになります。
+
 # Chain of Responsibility（責任の連鎖）パターン
 
 ## メリット
