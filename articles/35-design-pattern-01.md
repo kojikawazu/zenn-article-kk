@@ -2,7 +2,7 @@
 title: "デザインパターン備忘録(前半)"
 emoji: "🖌"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: ["java", "typescript", "python" "デザインパターン"]
+topics: ["java", "typescript", "python", "デザインパターン"]
 published: true
 ---
 
