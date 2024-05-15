@@ -1,6 +1,6 @@
 ---
 title: "デザインパターン備忘録"
-emoji: "💻"
+emoji: "🖌"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["java", "typescript", "python"]
 published: false
