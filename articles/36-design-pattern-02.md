@@ -2,8 +2,8 @@
 title: "デザインパターン備忘録(後半)"
 emoji: "🖌"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: ["java", "typescript", "python"]
-published: false
+topics: ["java", "typescript", "python", "デザインパターン"]
+published: true
 ---
 
 # 前回の記事から
