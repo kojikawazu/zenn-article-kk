@@ -6,6 +6,10 @@ topics: ["java", "typescript", "python"]
 published: false
 ---
 
+# はじめに
+
+ChatGPT-4が使用できるようになりました。私も早速使ってみましたが、以前のバージョンに比べてスピードと精度の向上を実感しました。これを機に、デザインパターンについての記事を書いてみることにしました。この記事を通じて勉強にもなり、後で見返すための資料としても活用できるようにしたいと思います。サンプルコードには、Java、TypeScript、Pythonのプログラミング言語を使用しています。
+
 # デザインパターン一覧
 
 - 生成に関するパターン
@@ -775,6 +779,159 @@ if __name__ == "__main__":
 
 メール、SMS、プッシュ通知など、異なる通知手段に応じて異なる通知クラスを生成する場合。
 
+## サンプルコード(Java、TypeScript、Python)
+
+:::details Javaコード
+```java
+interface Animal {
+    void speak();
+}
+
+class Dog implements Animal {
+    @Override
+    public void speak() {
+        System.out.println("Woof!");
+    }
+}
+
+class Cat implements Animal {
+    @Override
+    public void speak() {
+        System.out.println("Meow!");
+    }
+}
+
+abstract class AnimalFactory {
+    public abstract Animal createAnimal();
+
+    public void makeSound() {
+        Animal animal = createAnimal();
+        animal.speak();
+    }
+}
+
+class DogFactory extends AnimalFactory {
+    @Override
+    public Animal createAnimal() {
+        return new Dog();
+    }
+}
+
+class CatFactory extends AnimalFactory {
+    @Override
+    public Animal createAnimal() {
+        return new Cat();
+    }
+}
+```
+
+```java
+public class FactoryMethodExample {
+    public static void main(String[] args) {
+        AnimalFactory dogFactory = new DogFactory();
+        dogFactory.makeSound();
+
+        AnimalFactory catFactory = new CatFactory();
+        catFactory.makeSound();
+    }
+}
+```
+:::
+
+:::details TypeScriptコード
+```typescript
+interface Animal {
+    speak(): void;
+}
+
+class Dog implements Animal {
+    speak(): void {
+        console.log("Woof!");
+    }
+}
+
+class Cat implements Animal {
+    speak(): void {
+        console.log("Meow!");
+    }
+}
+
+abstract class AnimalFactory {
+    abstract createAnimal(): Animal;
+
+    makeSound(): void {
+        const animal = this.createAnimal();
+        animal.speak();
+    }
+}
+
+class DogFactory extends AnimalFactory {
+    createAnimal(): Animal {
+        return new Dog();
+    }
+}
+
+class CatFactory extends AnimalFactory {
+    createAnimal(): Animal {
+        return new Cat();
+    }
+}
+```
+
+```typescript
+const dogFactory = new DogFactory();
+dogFactory.makeSound();
+
+const catFactory = new CatFactory();
+catFactory.makeSound();
+```
+:::
+
+:::details Pythonコード
+```python
+from abc import ABC, abstractmethod
+
+class Animal(ABC):
+    @abstractmethod
+    def speak(self):
+        pass
+
+class Dog(Animal):
+    def speak(self):
+        print("Woof!")
+
+class Cat(Animal):
+    def speak(self):
+        print("Meow!")
+
+class AnimalFactory(ABC):
+    @abstractmethod
+    def create_animal(self):
+        pass
+
+    def make_sound(self):
+        animal = self.create_animal()
+        animal.speak()
+
+class DogFactory(AnimalFactory):
+    def create_animal(self):
+        return Dog()
+
+class CatFactory(AnimalFactory):
+    def create_animal(self):
+        return Cat()
+```
+
+```python
+if __name__ == "__main__":
+    dog_factory = DogFactory()
+    dog_factory.make_sound()
+
+    cat_factory = CatFactory()
+    cat_factory.make_sound()
+```
+:::
+
 # Prototype（プロトタイプ）パターン
 
 ## メリット
@@ -848,6 +1005,193 @@ UIコンポーネントのプロトタイプを複製することで、新しい
 - グラフィカルオブジェクトの複製
 
 グラフィカルなオブジェクト（例えば、図形やアイコン）をプロトタイプとして保持し、必要に応じて複製。
+
+## サンプルコード(Java、TypeScript、Python)
+
+:::details Javaコード
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+interface Animal extends Cloneable {
+    Animal clone();
+}
+
+class Dog implements Animal {
+    @Override
+    public Dog clone() {
+        try {
+            return (Dog) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Dog";
+    }
+}
+
+class Cat implements Animal {
+    @Override
+    public Cat clone() {
+        try {
+            return (Cat) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Cat";
+    }
+}
+
+class AnimalRegistry {
+    private Map<String, Animal> registry = new HashMap<>();
+
+    public AnimalRegistry() {
+        registry.put("Dog", new Dog());
+        registry.put("Cat", new Cat());
+    }
+
+    public Animal getAnimal(String type) {
+        return registry.get(type).clone();
+    }
+}
+```
+
+```java
+public class PrototypePatternExample {
+    public static void main(String[] args) {
+        AnimalRegistry registry = new AnimalRegistry();
+
+        Animal dog1 = registry.getAnimal("Dog");
+        Animal dog2 = registry.getAnimal("Dog");
+        Animal cat1 = registry.getAnimal("Cat");
+
+        System.out.println(dog1); // Output: Dog
+        System.out.println(dog2); // Output: Dog
+        System.out.println(cat1); // Output: Cat
+
+        System.out.println(dog1 == dog2); // Output: false
+        System.out.println(dog1.equals(dog2)); // Output: false
+    }
+}
+```
+:::
+
+:::details TypeScriptコード
+```typescript
+interface Animal {
+    clone(): Animal;
+}
+
+class Dog implements Animal {
+    clone(): Dog {
+        return Object.create(this);
+    }
+
+    toString(): string {
+        return "Dog";
+    }
+}
+
+class Cat implements Animal {
+    clone(): Cat {
+        return Object.create(this);
+    }
+
+    toString(): string {
+        return "Cat";
+    }
+}
+
+class AnimalRegistry {
+    private registry: { [key: string]: Animal } = {};
+
+    constructor() {
+        this.registry["Dog"] = new Dog();
+        this.registry["Cat"] = new Cat();
+    }
+
+    getAnimal(type: string): Animal {
+        return this.registry[type].clone();
+    }
+}
+```
+
+```typescript
+const registry = new AnimalRegistry();
+
+const dog1 = registry.getAnimal("Dog");
+const dog2 = registry.getAnimal("Dog");
+const cat1 = registry.getAnimal("Cat");
+
+console.log(dog1.toString()); // Output: Dog
+console.log(dog2.toString()); // Output: Dog
+console.log(cat1.toString()); // Output: Cat
+
+console.log(dog1 === dog2); // Output: false
+console.log(dog1 == dog2); // Output: false
+```
+:::
+
+:::details Pythonコード
+```python
+import copy
+from abc import ABC, abstractmethod
+
+class Animal(ABC):
+    @abstractmethod
+    def clone(self):
+        pass
+
+class Dog(Animal):
+    def clone(self):
+        return copy.deepcopy(self)
+
+    def __str__(self):
+        return "Dog"
+
+class Cat(Animal):
+    def clone(self):
+        return copy.deepcopy(self)
+
+    def __str__(self):
+        return "Cat"
+
+class AnimalRegistry:
+    def __init__(self):
+        self._registry = {
+            "Dog": Dog(),
+            "Cat": Cat()
+        }
+
+    def get_animal(self, type):
+        return self._registry[type].clone()
+```
+
+```python
+if __name__ == "__main__":
+    registry = AnimalRegistry()
+
+    dog1 = registry.get_animal("Dog")
+    dog2 = registry.get_animal("Dog")
+    cat1 = registry.get_animal("Cat")
+
+    print(dog1)  # Output: Dog
+    print(dog2)  # Output: Dog
+    print(cat1)  # Output: Cat
+
+    print(dog1 is dog2)  # Output: False
+    print(dog1 == dog2)  # Output: False
+```
+:::
 
 # Singleton（シングルトン）パターン
 
@@ -931,6 +1275,75 @@ UIコンポーネントのプロトタイプを複製することで、新しい
 
 プリンタへのアクセスを一元管理し、複数のモジュールからのプリント要求をシリアライズする。
 
+## サンプルコード(Java、TypeScript、Python)
+
+:::details Javaコード
+```java
+public class Singleton {
+    private static Singleton instance = new Singleton();
+
+    private Singleton() {
+        // Initialization code here
+    }
+
+    public static Singleton getInstance() {
+        return instance;
+    }
+
+    public void showMessage() {
+        System.out.println("Hello from Singleton!");
+    }
+
+    public static void main(String[] args) {
+        Singleton singleton = Singleton.getInstance();
+        singleton.showMessage();
+    }
+}
+```
+:::
+
+:::details TypeScriptコード
+```typescript
+class Singleton {
+    private static instance: Singleton = new Singleton();
+
+    private constructor() {
+        // Initialization code here
+    }
+
+    public static getInstance(): Singleton {
+        return Singleton.instance;
+    }
+
+    public showMessage(): void {
+        console.log("Hello from Singleton!");
+    }
+}
+
+const singleton = Singleton.getInstance();
+singleton.showMessage();
+```
+:::
+
+:::details Pythonコード
+```python
+class Singleton:
+    _instance = None
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super(Singleton, cls).__new__(cls)
+        return cls._instance
+
+    def show_message(self):
+        print("Hello from Singleton!")
+
+if __name__ == "__main__":
+    singleton = Singleton()
+    singleton.show_message()
+```
+:::
+
 # Adapter（アダプター）パターン
 
 ## メリット
@@ -1005,6 +1418,178 @@ UIコンポーネントのプロトタイプを複製することで、新しい
 
 異なるファイルシステム（ローカルファイルシステム、クラウドストレージなど）を統一したインターフェースで扱うためのアダプター。
 
+## サンプルコード(Java、TypeScript、Python)
+
+:::details Javaコード
+```java
+interface MediaPlayer {
+    void play(String audioType, String fileName);
+}
+
+class AdvancedMediaPlayer {
+    void playVlc(String fileName) {
+        System.out.println("Playing vlc file. Name: " + fileName);
+    }
+
+    void playMp4(String fileName) {
+        System.out.println("Playing mp4 file. Name: " + fileName);
+    }
+}
+
+class MediaAdapter implements MediaPlayer {
+    AdvancedMediaPlayer advancedMediaPlayer;
+
+    public MediaAdapter(String audioType) {
+        if (audioType.equalsIgnoreCase("vlc")) {
+            advancedMediaPlayer = new AdvancedMediaPlayer();
+        } else if (audioType.equalsIgnoreCase("mp4")) {
+            advancedMediaPlayer = new AdvancedMediaPlayer();
+        }
+    }
+
+    @Override
+    public void play(String audioType, String fileName) {
+        if (audioType.equalsIgnoreCase("vlc")) {
+            advancedMediaPlayer.playVlc(fileName);
+        } else if (audioType.equalsIgnoreCase("mp4")) {
+            advancedMediaPlayer.playMp4(fileName);
+        }
+    }
+}
+```
+
+```java
+public class AudioPlayer implements MediaPlayer {
+    MediaAdapter mediaAdapter;
+
+    @Override
+    public void play(String audioType, String fileName) {
+        if (audioType.equalsIgnoreCase("mp3")) {
+            System.out.println("Playing mp3 file. Name: " + fileName);
+        } else if (audioType.equalsIgnoreCase("vlc") || audioType.equalsIgnoreCase("mp4")) {
+            mediaAdapter = new MediaAdapter(audioType);
+            mediaAdapter.play(audioType, fileName);
+        } else {
+            System.out.println("Invalid media. " + audioType + " format not supported");
+        }
+    }
+
+    public static void main(String[] args) {
+        AudioPlayer audioPlayer = new AudioPlayer();
+
+        audioPlayer.play("mp3", "beyond_the_horizon.mp3");
+        audioPlayer.play("mp4", "alone.mp4");
+        audioPlayer.play("vlc", "far_far_away.vlc");
+        audioPlayer.play("avi", "mind_me.avi");
+    }
+}
+```
+:::
+
+:::details TypeScriptコード
+```typescript
+interface MediaPlayer {
+    play(audioType: string, fileName: string): void;
+}
+
+class AdvancedMediaPlayer {
+    playVlc(fileName: string): void {
+        console.log(`Playing vlc file. Name: ${fileName}`);
+    }
+
+    playMp4(fileName: string): void {
+        console.log(`Playing mp4 file. Name: ${fileName}`);
+    }
+}
+
+class MediaAdapter implements MediaPlayer {
+    advancedMediaPlayer: AdvancedMediaPlayer;
+
+    constructor(audioType: string) {
+        this.advancedMediaPlayer = new AdvancedMediaPlayer();
+    }
+
+    play(audioType: string, fileName: string): void {
+        if (audioType === 'vlc') {
+            this.advancedMediaPlayer.playVlc(fileName);
+        } else if (audioType === 'mp4') {
+            this.advancedMediaPlayer.playMp4(fileName);
+        }
+    }
+}
+```
+
+```typescript
+class AudioPlayer implements MediaPlayer {
+    mediaAdapter: MediaAdapter;
+
+    play(audioType: string, fileName: string): void {
+        if (audioType === 'mp3') {
+            console.log(`Playing mp3 file. Name: ${fileName}`);
+        } else if (audioType === 'vlc' || audioType === 'mp4') {
+            this.mediaAdapter = new MediaAdapter(audioType);
+            this.mediaAdapter.play(audioType, fileName);
+        } else {
+            console.log(`Invalid media. ${audioType} format not supported`);
+        }
+    }
+}
+
+const audioPlayer = new AudioPlayer();
+audioPlayer.play('mp3', 'beyond_the_horizon.mp3');
+audioPlayer.play('mp4', 'alone.mp4');
+audioPlayer.play('vlc', 'far_far_away.vlc');
+audioPlayer.play('avi', 'mind_me.avi');
+```
+:::
+
+:::details Pythonコード
+```python
+class MediaPlayer:
+    def play(self, audio_type: str, file_name: str):
+        pass
+
+class AdvancedMediaPlayer:
+    def play_vlc(self, file_name: str):
+        print(f"Playing vlc file. Name: {file_name}")
+
+    def play_mp4(self, file_name: str):
+        print(f"Playing mp4 file. Name: {file_name}")
+
+class MediaAdapter(MediaPlayer):
+    def __init__(self, audio_type: str):
+        self.advanced_media_player = AdvancedMediaPlayer()
+
+    def play(self, audio_type: str, file_name: str):
+        if audio_type == "vlc":
+            self.advanced_media_player.play_vlc(file_name)
+        elif audio_type == "mp4":
+            self.advanced_media_player.play_mp4(file_name)
+```
+
+```python
+class AudioPlayer(MediaPlayer):
+    def __init__(self):
+        self.media_adapter = None
+
+    def play(self, audio_type: str, file_name: str):
+        if audio_type == "mp3":
+            print(f"Playing mp3 file. Name: {file_name}")
+        elif audio_type in ["vlc", "mp4"]:
+            self.media_adapter = MediaAdapter(audio_type)
+            self.media_adapter.play(audio_type, file_name)
+        else:
+            print(f"Invalid media. {audio_type} format not supported")
+
+if __name__ == "__main__":
+    audio_player = AudioPlayer()
+    audio_player.play("mp3", "beyond_the_horizon.mp3")
+    audio_player.play("mp4", "alone.mp4")
+    audio_player.play("vlc", "far_far_away.vlc")
+    audio_player.play("avi", "mind_me.avi")
+```
+:::
+
 # Bridge（ブリッジ）パターン
 
 ## メリット
@@ -1078,6 +1663,169 @@ UIコンポーネントのプロトタイプを複製することで、新しい
 - レポート生成システム
 
 抽象部分としてのレポート生成インターフェースを持ち、具体的な実装部分でPDF、HTML、Excelなどの異なる形式のレポートを生成。
+
+## サンプルコード(Java、TypeScript、Python)
+
+:::details Javaコード
+```java
+interface DrawAPI {
+    void drawCircle(int radius, int x, int y);
+}
+
+class RedCircle implements DrawAPI {
+    @Override
+    public void drawCircle(int radius, int x, int y) {
+        System.out.println("Drawing Circle[ color: red, radius: " + radius + ", x: " + x + ", y: " + y + "]");
+    }
+}
+
+class GreenCircle implements DrawAPI {
+    @Override
+    public void drawCircle(int radius, int x, int y) {
+        System.out.println("Drawing Circle[ color: green, radius: " + radius + ", x: " + x + ", y: " + y + "]");
+    }
+}
+
+abstract class Shape {
+    protected DrawAPI drawAPI;
+
+    protected Shape(DrawAPI drawAPI) {
+        this.drawAPI = drawAPI;
+    }
+
+    public abstract void draw();
+}
+
+class Circle extends Shape {
+    private int x, y, radius;
+
+    public Circle(int x, int y, int radius, DrawAPI drawAPI) {
+        super(drawAPI);
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+    }
+
+    @Override
+    public void draw() {
+        drawAPI.drawCircle(radius, x, y);
+    }
+}
+```
+
+```java
+public class BridgePatternExample {
+    public static void main(String[] args) {
+        Shape redCircle = new Circle(100, 100, 10, new RedCircle());
+        Shape greenCircle = new Circle(100, 100, 10, new GreenCircle());
+
+        redCircle.draw();
+        greenCircle.draw();
+    }
+}
+```
+:::
+
+:::details TypeScriptコード
+```typescript
+interface DrawAPI {
+    drawCircle(radius: number, x: number, y: number): void;
+}
+
+class RedCircle implements DrawAPI {
+    drawCircle(radius: number, x: number, y: number): void {
+        console.log(`Drawing Circle[ color: red, radius: ${radius}, x: ${x}, y: ${y} ]`);
+    }
+}
+
+class GreenCircle implements DrawAPI {
+    drawCircle(radius: number, x: number, y: number): void {
+        console.log(`Drawing Circle[ color: green, radius: ${radius}, x: ${x}, y: ${y} ]`);
+    }
+}
+
+abstract class Shape {
+    protected drawAPI: DrawAPI;
+
+    protected constructor(drawAPI: DrawAPI) {
+        this.drawAPI = drawAPI;
+    }
+
+    public abstract draw(): void;
+}
+
+class Circle extends Shape {
+    private x: number;
+    private y: number;
+    private radius: number;
+
+    constructor(x: number, y: number, radius: number, drawAPI: DrawAPI) {
+        super(drawAPI);
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+    }
+
+    public draw(): void {
+        this.drawAPI.drawCircle(this.radius, this.x, this.y);
+    }
+}
+```
+
+```typescript
+const redCircle = new Circle(100, 100, 10, new RedCircle());
+const greenCircle = new Circle(100, 100, 10, new GreenCircle());
+
+redCircle.draw();
+greenCircle.draw();
+```
+:::
+
+:::details Pythonコード
+```python
+from abc import ABC, abstractmethod
+
+class DrawAPI(ABC):
+    @abstractmethod
+    def draw_circle(self, radius: int, x: int, y: int):
+        pass
+
+class RedCircle(DrawAPI):
+    def draw_circle(self, radius: int, x: int, y: int):
+        print(f"Drawing Circle[ color: red, radius: {radius}, x: {x}, y: {y} ]")
+
+class GreenCircle(DrawAPI):
+    def draw_circle(self, radius: int, x: int, y: int):
+        print(f"Drawing Circle[ color: green, radius: {radius}, x: {x}, y: {y} ]")
+
+class Shape(ABC):
+    def __init__(self, draw_api: DrawAPI):
+        self.draw_api = draw_api
+
+    @abstractmethod
+    def draw(self):
+        pass
+
+class Circle(Shape):
+    def __init__(self, x: int, y: int, radius: int, draw_api: DrawAPI):
+        super().__init__(draw_api)
+        self.x = x
+        self.y = y
+        self.radius = radius
+
+    def draw(self):
+        self.draw_api.draw_circle(self.radius, self.x, self.y)
+```
+
+```python
+if __name__ == "__main__":
+    red_circle = Circle(100, 100, 10, RedCircle())
+    green_circle = Circle(100, 100, 10, GreenCircle())
+
+    red_circle.draw()
+    green_circle.draw()
+```
+:::
 
 # Composite（コンポジット）パターン
 
@@ -1157,6 +1905,202 @@ UIコンポーネントのプロトタイプを複製することで、新しい
 
 メニューとサブメニューをツリー構造で表現し、ユーザーインターフェースで一貫した操作（例えば、選択や表示）を行う。
 
+## サンプルコード(Java、TypeScript、Python)
+
+:::details Javaコード
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+abstract class Employee {
+    protected String name;
+    protected String position;
+
+    public Employee(String name, String position) {
+        this.name = name;
+        this.position = position;
+    }
+
+    public abstract void showDetails();
+}
+
+class Developer extends Employee {
+    public Developer(String name, String position) {
+        super(name, position);
+    }
+
+    @Override
+    public void showDetails() {
+        System.out.println(name + " is a " + position);
+    }
+}
+
+class Manager extends Employee {
+    private List<Employee> employees = new ArrayList<>();
+
+    public Manager(String name, String position) {
+        super(name, position);
+    }
+
+    public void addEmployee(Employee employee) {
+        employees.add(employee);
+    }
+
+    public void removeEmployee(Employee employee) {
+        employees.remove(employee);
+    }
+
+    @Override
+    public void showDetails() {
+        System.out.println(name + " is a " + position);
+        for (Employee employee : employees) {
+            employee.showDetails();
+        }
+    }
+}
+```
+
+```java
+public class CompositePatternExample {
+    public static void main(String[] args) {
+        Developer dev1 = new Developer("John Doe", "Frontend Developer");
+        Developer dev2 = new Developer("Jane Smith", "Backend Developer");
+
+        Manager manager1 = new Manager("Alice Johnson", "Project Manager");
+        manager1.addEmployee(dev1);
+        manager1.addEmployee(dev2);
+
+        Developer dev3 = new Developer("Mike Brown", "DevOps Engineer");
+        Manager manager2 = new Manager("Bob White", "CTO");
+        manager2.addEmployee(manager1);
+        manager2.addEmployee(dev3);
+
+        manager2.showDetails();
+    }
+}
+```
+:::
+
+:::details TypeScriptコード
+```typescript
+abstract class Employee {
+    protected name: string;
+    protected position: string;
+
+    constructor(name: string, position: string) {
+        this.name = name;
+        this.position = position;
+    }
+
+    abstract showDetails(): void;
+}
+
+class Developer extends Employee {
+    constructor(name: string, position: string) {
+        super(name, position);
+    }
+
+    showDetails(): void {
+        console.log(`${this.name} is a ${this.position}`);
+    }
+}
+
+class Manager extends Employee {
+    private employees: Employee[] = [];
+
+    constructor(name: string, position: string) {
+        super(name, position);
+    }
+
+    addEmployee(employee: Employee): void {
+        this.employees.push(employee);
+    }
+
+    removeEmployee(employee: Employee): void {
+        const index = this.employees.indexOf(employee);
+        if (index > -1) {
+            this.employees.splice(index, 1);
+        }
+    }
+
+    showDetails(): void {
+        console.log(`${this.name} is a ${this.position}`);
+        for (const employee of this.employees) {
+            employee.showDetails();
+        }
+    }
+}
+```
+
+```typescript
+const dev1 = new Developer("John Doe", "Frontend Developer");
+const dev2 = new Developer("Jane Smith", "Backend Developer");
+
+const manager1 = new Manager("Alice Johnson", "Project Manager");
+manager1.addEmployee(dev1);
+manager1.addEmployee(dev2);
+
+const dev3 = new Developer("Mike Brown", "DevOps Engineer");
+const manager2 = new Manager("Bob White", "CTO");
+manager2.addEmployee(manager1);
+manager2.addEmployee(dev3);
+
+manager2.showDetails();
+```
+:::
+
+:::details Pythonコード
+```python
+from abc import ABC, abstractmethod
+
+class Employee(ABC):
+    def __init__(self, name: str, position: str):
+        self.name = name
+        self.position = position
+
+    @abstractmethod
+    def show_details(self):
+        pass
+
+class Developer(Employee):
+    def show_details(self):
+        print(f"{self.name} is a {self.position}")
+
+class Manager(Employee):
+    def __init__(self, name: str, position: str):
+        super().__init__(name, position)
+        self.employees = []
+
+    def add_employee(self, employee: Employee):
+        self.employees.append(employee)
+
+    def remove_employee(self, employee: Employee):
+        self.employees.remove(employee)
+
+    def show_details(self):
+        print(f"{self.name} is a {self.position}")
+        for employee in self.employees:
+            employee.show_details()
+```
+
+```python
+if __name__ == "__main__":
+    dev1 = Developer("John Doe", "Frontend Developer")
+    dev2 = Developer("Jane Smith", "Backend Developer")
+
+    manager1 = Manager("Alice Johnson", "Project Manager")
+    manager1.add_employee(dev1)
+    manager1.add_employee(dev2)
+
+    dev3 = Developer("Mike Brown", "DevOps Engineer")
+    manager2 = Manager("Bob White", "CTO")
+    manager2.add_employee(manager1)
+    manager2.add_employee(dev3)
+
+    manager2.show_details()
+```
+:::
+
 # Decorator（デコレーター）パターン
 
 ## メリット
@@ -1234,6 +2178,214 @@ UIコンポーネントのプロトタイプを複製することで、新しい
 - 入力検証
 
 基本的な入力フィールドに対して検証機能（必須チェック、フォーマットチェック）を動的に追加するために使用。
+
+## サンプルコード(Java、TypeScript、Python)
+
+:::details Javaコード
+```java
+interface Shape {
+    void draw();
+}
+
+class Circle implements Shape {
+    @Override
+    public void draw() {
+        System.out.println("Drawing Circle");
+    }
+}
+
+abstract class ShapeDecorator implements Shape {
+    protected Shape decoratedShape;
+
+    public ShapeDecorator(Shape decoratedShape) {
+        this.decoratedShape = decoratedShape;
+    }
+
+    public void draw() {
+        decoratedShape.draw();
+    }
+}
+
+class RedShapeDecorator extends ShapeDecorator {
+    public RedShapeDecorator(Shape decoratedShape) {
+        super(decoratedShape);
+    }
+
+    @Override
+    public void draw() {
+        decoratedShape.draw();
+        setRedBorder(decoratedShape);
+    }
+
+    private void setRedBorder(Shape decoratedShape) {
+        System.out.println("Border Color: Red");
+    }
+}
+
+class GreenShapeDecorator extends ShapeDecorator {
+    public GreenShapeDecorator(Shape decoratedShape) {
+        super(decoratedShape);
+    }
+
+    @Override
+    public void draw() {
+        decoratedShape.draw();
+        setGreenBorder(decoratedShape);
+    }
+
+    private void setGreenBorder(Shape decoratedShape) {
+        System.out.println("Border Color: Green");
+    }
+}
+```
+
+```java
+public class DecoratorPatternExample {
+    public static void main(String[] args) {
+        Shape circle = new Circle();
+
+        Shape redCircle = new RedShapeDecorator(new Circle());
+        Shape greenCircle = new GreenShapeDecorator(new Circle());
+
+        System.out.println("Normal Circle:");
+        circle.draw();
+
+        System.out.println("\nRed Decorated Circle:");
+        redCircle.draw();
+
+        System.out.println("\nGreen Decorated Circle:");
+        greenCircle.draw();
+    }
+}
+```
+:::
+
+:::details TypeScriptコード
+```typescript
+interface Shape {
+    draw(): void;
+}
+
+class Circle implements Shape {
+    draw(): void {
+        console.log("Drawing Circle");
+    }
+}
+
+abstract class ShapeDecorator implements Shape {
+    protected decoratedShape: Shape;
+
+    constructor(decoratedShape: Shape) {
+        this.decoratedShape = decoratedShape;
+    }
+
+    draw(): void {
+        this.decoratedShape.draw();
+    }
+}
+
+class RedShapeDecorator extends ShapeDecorator {
+    constructor(decoratedShape: Shape) {
+        super(decoratedShape);
+    }
+
+    draw(): void {
+        super.draw();
+        this.setRedBorder(this.decoratedShape);
+    }
+
+    private setRedBorder(decoratedShape: Shape): void {
+        console.log("Border Color: Red");
+    }
+}
+
+class GreenShapeDecorator extends ShapeDecorator {
+    constructor(decoratedShape: Shape) {
+        super(decoratedShape);
+    }
+
+    draw(): void {
+        super.draw();
+        this.setGreenBorder(this.decoratedShape);
+    }
+
+    private setGreenBorder(decoratedShape: Shape): void {
+        console.log("Border Color: Green");
+    }
+}
+```
+
+```typescript
+const circle = new Circle();
+
+const redCircle = new RedShapeDecorator(new Circle());
+const greenCircle = new GreenShapeDecorator(new Circle());
+
+console.log("Normal Circle:");
+circle.draw();
+
+console.log("\nRed Decorated Circle:");
+redCircle.draw();
+
+console.log("\nGreen Decorated Circle:");
+greenCircle.draw();
+```
+:::
+
+:::details Pythonコード
+```python
+from abc import ABC, abstractmethod
+
+class Shape(ABC):
+    @abstractmethod
+    def draw(self):
+        pass
+
+class Circle(Shape):
+    def draw(self):
+        print("Drawing Circle")
+
+class ShapeDecorator(Shape):
+    def __init__(self, decorated_shape: Shape):
+        self.decorated_shape = decorated_shape
+
+    def draw(self):
+        self.decorated_shape.draw()
+
+class RedShapeDecorator(ShapeDecorator):
+    def draw(self):
+        super().draw()
+        self.set_red_border(self.decorated_shape)
+
+    def set_red_border(self, decorated_shape: Shape):
+        print("Border Color: Red")
+
+class GreenShapeDecorator(ShapeDecorator):
+    def draw(self):
+        super().draw()
+        self.set_green_border(self.decorated_shape)
+
+    def set_green_border(self, decorated_shape: Shape):
+        print("Border Color: Green")
+```
+
+```python
+if __name__ == "__main__":
+    circle = Circle()
+
+    red_circle = RedShapeDecorator(Circle())
+    green_circle = GreenShapeDecorator(Circle())
+
+    print("Normal Circle:")
+    circle.draw()
+
+    print("\nRed Decorated Circle:")
+    red_circle.draw()
+
+    print("\nGreen Decorated Circle:")
+    green_circle.draw()
+```
+:::
 
 # Facade（ファサード）
 
@@ -1313,6 +2465,163 @@ UIコンポーネントのプロトタイプを複製することで、新しい
 
 古いシステムの複雑な操作を新しいシステムで簡単に利用できるようにするためのラッパーを提供。
 
+## サンプルコード(Java、TypeScript、Python)
+
+:::details Javaコード
+```java
+class CPU {
+    public void freeze() {
+        System.out.println("CPU is frozen");
+    }
+
+    public void jump(long position) {
+        System.out.println("CPU jumps to position " + position);
+    }
+
+    public void execute() {
+        System.out.println("CPU is executing");
+    }
+}
+
+class Memory {
+    public void load(long position, byte[] data) {
+        System.out.println("Memory is loading data at position " + position);
+    }
+}
+
+class HardDrive {
+    public byte[] read(long lba, int size) {
+        System.out.println("HardDrive is reading " + size + " bytes at LBA " + lba);
+        return new byte[size];
+    }
+}
+
+class Computer {
+    private CPU cpu;
+    private Memory memory;
+    private HardDrive hardDrive;
+
+    public Computer() {
+        this.cpu = new CPU();
+        this.memory = new Memory();
+        this.hardDrive = new HardDrive();
+    }
+
+    public void startComputer() {
+        cpu.freeze();
+        memory.load(0, hardDrive.read(0, 1024));
+        cpu.jump(0);
+        cpu.execute();
+    }
+}
+```
+
+```java
+public class FacadePatternExample {
+    public static void main(String[] args) {
+        Computer computer = new Computer();
+        computer.startComputer();
+    }
+}
+```
+:::
+
+:::details TypeScriptコード
+```typescript
+class CPU {
+    freeze(): void {
+        console.log("CPU is frozen");
+    }
+
+    jump(position: number): void {
+        console.log(`CPU jumps to position ${position}`);
+    }
+
+    execute(): void {
+        console.log("CPU is executing");
+    }
+}
+
+class Memory {
+    load(position: number, data: Uint8Array): void {
+        console.log(`Memory is loading data at position ${position}`);
+    }
+}
+
+class HardDrive {
+    read(lba: number, size: number): Uint8Array {
+        console.log(`HardDrive is reading ${size} bytes at LBA ${lba}`);
+        return new Uint8Array(size);
+    }
+}
+
+class Computer {
+    private cpu: CPU;
+    private memory: Memory;
+    private hardDrive: HardDrive;
+
+    constructor() {
+        this.cpu = new CPU();
+        this.memory = new Memory();
+        this.hardDrive = new HardDrive();
+    }
+
+    startComputer(): void {
+        this.cpu.freeze();
+        this.memory.load(0, this.hardDrive.read(0, 1024));
+        this.cpu.jump(0);
+        this.cpu.execute();
+    }
+}
+```
+
+```typescript
+const computer = new Computer();
+computer.startComputer();
+```
+:::
+
+:::details Pythonコード
+```python
+class CPU:
+    def freeze(self):
+        print("CPU is frozen")
+
+    def jump(self, position):
+        print(f"CPU jumps to position {position}")
+
+    def execute(self):
+        print("CPU is executing")
+
+class Memory:
+    def load(self, position, data):
+        print(f"Memory is loading data at position {position}")
+
+class HardDrive:
+    def read(self, lba, size):
+        print(f"HardDrive is reading {size} bytes at LBA {lba}")
+        return bytearray(size)
+
+class Computer:
+    def __init__(self):
+        self.cpu = CPU()
+        self.memory = Memory()
+        self.hard_drive = HardDrive()
+
+    def start_computer(self):
+        self.cpu.freeze()
+        self.memory.load(0, self.hard_drive.read(0, 1024))
+        self.cpu.jump(0)
+        self.cpu.execute()
+```
+
+```python
+if __name__ == "__main__":
+    computer = Computer()
+    computer.start_computer()
+```
+:::
+
 # Flyweight（フライウェイト）パターン
 
 ## メリット
@@ -1382,6 +2691,227 @@ UIコンポーネントのプロトタイプを複製することで、新しい
 - 設定情報の共有
 
 アプリケーション全体で使用される設定情報オブジェクトを共有し、一貫性を保つ。
+
+## サンプルコード(Java、TypeScript、Python)
+
+:::details Javaコード
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+interface Shape {
+    void draw();
+}
+
+class Circle implements Shape {
+    private String color;
+    private int x;
+    private int y;
+    private int radius;
+
+    public Circle(String color) {
+        this.color = color;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void setRadius(int radius) {
+        this.radius = radius;
+    }
+
+    @Override
+    public void draw() {
+        System.out.println("Drawing Circle [Color: " + color + ", x: " + x + ", y: " + y + ", radius: " + radius + "]");
+    }
+}
+
+class ShapeFactory {
+    private static final Map<String, Shape> circleMap = new HashMap<>();
+
+    public static Shape getCircle(String color) {
+        Circle circle = (Circle) circleMap.get(color);
+
+        if (circle == null) {
+            circle = new Circle(color);
+            circleMap.put(color, circle);
+            System.out.println("Creating circle of color : " + color);
+        }
+        return circle;
+    }
+}
+```
+
+```java
+public class FlyweightPatternExample {
+    private static final String[] colors = {"Red", "Green", "Blue", "White", "Black"};
+
+    public static void main(String[] args) {
+        for (int i = 0; i < 20; ++i) {
+            Circle circle = (Circle) ShapeFactory.getCircle(getRandomColor());
+            circle.setX(getRandomX());
+            circle.setY(getRandomY());
+            circle.setRadius(100);
+            circle.draw();
+        }
+    }
+
+    private static String getRandomColor() {
+        return colors[(int) (Math.random() * colors.length)];
+    }
+
+    private static int getRandomX() {
+        return (int) (Math.random() * 100);
+    }
+
+    private static int getRandomY() {
+        return (int) (Math.random() * 100);
+    }
+}
+```
+:::
+
+:::details TypeScriptコード
+```typescript
+interface Shape {
+    draw(): void;
+}
+
+class Circle implements Shape {
+    private color: string;
+    private x: number;
+    private y: number;
+    private radius: number;
+
+    constructor(color: string) {
+        this.color = color;
+    }
+
+    setX(x: number): void {
+        this.x = x;
+    }
+
+    setY(y: number): void {
+        this.y = y;
+    }
+
+    setRadius(radius: number): void {
+        this.radius = radius;
+    }
+
+    draw(): void {
+        console.log(`Drawing Circle [Color: ${this.color}, x: ${this.x}, y: ${this.y}, radius: ${this.radius}]`);
+    }
+}
+
+class ShapeFactory {
+    private static circleMap: { [key: string]: Circle } = {};
+
+    static getCircle(color: string): Shape {
+        let circle = this.circleMap[color];
+
+        if (!circle) {
+            circle = new Circle(color);
+            this.circleMap[color] = circle;
+            console.log(`Creating circle of color : ${color}`);
+        }
+        return circle;
+    }
+}
+```
+
+```typescript
+const colors: string[] = ["Red", "Green", "Blue", "White", "Black"];
+
+function getRandomColor(): string {
+    return colors[Math.floor(Math.random() * colors.length)];
+}
+
+function getRandomX(): number {
+    return Math.floor(Math.random() * 100);
+}
+
+function getRandomY(): number {
+    return Math.floor(Math.random() * 100);
+}
+
+for (let i = 0; i < 20; ++i) {
+    const circle = ShapeFactory.getCircle(getRandomColor()) as Circle;
+    circle.setX(getRandomX());
+    circle.setY(getRandomY());
+    circle.setRadius(100);
+    circle.draw();
+}
+```
+:::
+
+:::details Pythonコード
+```python
+import random
+
+class Shape:
+    def draw(self):
+        pass
+
+class Circle(Shape):
+    def __init__(self, color):
+        self.color = color
+        self.x = 0
+        self.y = 0
+        self.radius = 0
+
+    def set_x(self, x):
+        self.x = x
+
+    def set_y(self, y):
+        self.y = y
+
+    def set_radius(self, radius):
+        self.radius = radius
+
+    def draw(self):
+        print(f"Drawing Circle [Color: {self.color}, x: {self.x}, y: {self.y}, radius: {self.radius}]")
+
+class ShapeFactory:
+    circle_map = {}
+
+    @staticmethod
+    def get_circle(color):
+        circle = ShapeFactory.circle_map.get(color)
+
+        if circle is None:
+            circle = Circle(color)
+            ShapeFactory.circle_map[color] = circle
+            print(f"Creating circle of color : {color}")
+        return circle
+```
+
+```python
+colors = ["Red", "Green", "Blue", "White", "Black"]
+
+def get_random_color():
+    return random.choice(colors)
+
+def get_random_x():
+    return random.randint(0, 100)
+
+def get_random_y():
+    return random.randint(0, 100)
+
+if __name__ == "__main__":
+    for _ in range(20):
+        circle = ShapeFactory.get_circle(get_random_color())
+        circle.set_x(get_random_x())
+        circle.set_y(get_random_y())
+        circle.set_radius(100)
+        circle.draw()
+```
+:::
 
 # Proxy（プロキシ）パターン
 
@@ -1465,6 +2995,162 @@ UIコンポーネントのプロトタイプを複製することで、新しい
 
 オブジェクトの結果をキャッシュし、頻繁にアクセスされるデータの再計算を防ぐ。
 
+## サンプルコード(Java、TypeScript、Python)
+
+:::details Javaコード
+```java
+interface Image {
+    void display();
+}
+
+class RealImage implements Image {
+    private String fileName;
+
+    public RealImage(String fileName) {
+        this.fileName = fileName;
+        loadFromDisk(fileName);
+    }
+
+    private void loadFromDisk(String fileName) {
+        System.out.println("Loading " + fileName);
+    }
+
+    @Override
+    public void display() {
+        System.out.println("Displaying " + fileName);
+    }
+}
+
+class ProxyImage implements Image {
+    private RealImage realImage;
+    private String fileName;
+
+    public ProxyImage(String fileName) {
+        this.fileName = fileName;
+    }
+
+    @Override
+    public void display() {
+        if (realImage == null) {
+            realImage = new RealImage(fileName);
+        }
+        realImage.display();
+    }
+}
+```
+
+```java
+public class ProxyPatternExample {
+    public static void main(String[] args) {
+        Image image = new ProxyImage("test_image.jpg");
+
+        // Image will be loaded from disk
+        image.display();
+        System.out.println("");
+
+        // Image will not be loaded from disk
+        image.display();
+    }
+}
+```
+:::
+
+:::details TypeScriptコード
+```typescript
+interface Image {
+    display(): void;
+}
+
+class RealImage implements Image {
+    private fileName: string;
+
+    constructor(fileName: string) {
+        this.fileName = fileName;
+        this.loadFromDisk(fileName);
+    }
+
+    private loadFromDisk(fileName: string): void {
+        console.log(`Loading ${fileName}`);
+    }
+
+    display(): void {
+        console.log(`Displaying ${this.fileName}`);
+    }
+}
+
+class ProxyImage implements Image {
+    private realImage: RealImage | null = null;
+    private fileName: string;
+
+    constructor(fileName: string) {
+        this.fileName = fileName;
+    }
+
+    display(): void {
+        if (this.realImage === null) {
+            this.realImage = new RealImage(this.fileName);
+        }
+        this.realImage.display();
+    }
+}
+```
+
+```typescript
+const image: Image = new ProxyImage("test_image.jpg");
+
+// Image will be loaded from disk
+image.display();
+console.log("");
+
+// Image will not be loaded from disk
+image.display();
+```
+:::
+
+:::details Pythonコード
+```python
+from abc import ABC, abstractmethod
+
+class Image(ABC):
+    @abstractmethod
+    def display(self):
+        pass
+
+class RealImage(Image):
+    def __init__(self, file_name):
+        self.file_name = file_name
+        self.load_from_disk(file_name)
+
+    def load_from_disk(self, file_name):
+        print(f"Loading {file_name}")
+
+    def display(self):
+        print(f"Displaying {self.file_name}")
+
+class ProxyImage(Image):
+    def __init__(self, file_name):
+        self.file_name = file_name
+        self.real_image = None
+
+    def display(self):
+        if self.real_image is None:
+            self.real_image = RealImage(self.file_name)
+        self.real_image.display()
+```
+
+```python
+if __name__ == "__main__":
+    image = ProxyImage("test_image.jpg")
+
+    # Image will be loaded from disk
+    image.display()
+    print("")
+
+    # Image will not be loaded from disk
+    image.display()
+```
+:::
+
 # Chain of Responsibility（責任の連鎖）パターン
 
 ## メリット
@@ -1546,6 +3232,231 @@ Webアプリケーションでのリクエスト処理チェーン（例えば�
 - ワークフロー管理
 
 ビジネスプロセスや注文処理の各ステップをチェーンで処理する。
+
+## サンプルコード(Java、TypeScript、Python)
+
+:::details Javaコード
+```java
+abstract class Logger {
+    public static int INFO = 1;
+    public static int DEBUG = 2;
+    public static int ERROR = 3;
+
+    protected int level;
+    protected Logger nextLogger;
+
+    public void setNextLogger(Logger nextLogger) {
+        this.nextLogger = nextLogger;
+    }
+
+    public void logMessage(int level, String message) {
+        if (this.level <= level) {
+            write(message);
+        }
+        if (nextLogger != null) {
+            nextLogger.logMessage(level, message);
+        }
+    }
+
+    abstract protected void write(String message);
+}
+
+class ConsoleLogger extends Logger {
+    public ConsoleLogger(int level) {
+        this.level = level;
+    }
+
+    @Override
+    protected void write(String message) {
+        System.out.println("Standard Console::Logger: " + message);
+    }
+}
+
+class FileLogger extends Logger {
+    public FileLogger(int level) {
+        this.level = level;
+    }
+
+    @Override
+    protected void write(String message) {
+        System.out.println("File::Logger: " + message);
+    }
+}
+
+class ErrorLogger extends Logger {
+    public ErrorLogger(int level) {
+        this.level = level;
+    }
+
+    @Override
+    protected void write(String message) {
+        System.out.println("Error Console::Logger: " + message);
+    }
+}
+```
+
+```java
+public class ChainPatternExample {
+    private static Logger getChainOfLoggers() {
+        Logger errorLogger = new ErrorLogger(Logger.ERROR);
+        Logger fileLogger = new FileLogger(Logger.DEBUG);
+        Logger consoleLogger = new ConsoleLogger(Logger.INFO);
+
+        errorLogger.setNextLogger(fileLogger);
+        fileLogger.setNextLogger(consoleLogger);
+
+        return errorLogger;
+    }
+
+    public static void main(String[] args) {
+        Logger loggerChain = getChainOfLoggers();
+
+        loggerChain.logMessage(Logger.INFO, "This is an information.");
+        loggerChain.logMessage(Logger.DEBUG, "This is a debug level information.");
+        loggerChain.logMessage(Logger.ERROR, "This is an error information.");
+    }
+}
+```
+:::
+
+:::details TypeScriptコード
+```typescript
+abstract class Logger {
+    public static INFO: number = 1;
+    public static DEBUG: number = 2;
+    public static ERROR: number = 3;
+
+    protected level: number;
+    protected nextLogger: Logger;
+
+    public setNextLogger(nextLogger: Logger): void {
+        this.nextLogger = nextLogger;
+    }
+
+    public logMessage(level: number, message: string): void {
+        if (this.level <= level) {
+            this.write(message);
+        }
+        if (this.nextLogger) {
+            this.nextLogger.logMessage(level, message);
+        }
+    }
+
+    abstract protected write(message: string): void;
+}
+
+class ConsoleLogger extends Logger {
+    constructor(level: number) {
+        super();
+        this.level = level;
+    }
+
+    protected write(message: string): void {
+        console.log("Standard Console::Logger: " + message);
+    }
+}
+
+class FileLogger extends Logger {
+    constructor(level: number) {
+        super();
+        this.level = level;
+    }
+
+    protected write(message: string): void {
+        console.log("File::Logger: " + message);
+    }
+}
+
+class ErrorLogger extends Logger {
+    constructor(level: number) {
+        super();
+        this.level = level;
+    }
+
+    protected write(message: string): void {
+        console.log("Error Console::Logger: " + message);
+    }
+}
+```
+
+```typescript
+function getChainOfLoggers(): Logger {
+    const errorLogger = new ErrorLogger(Logger.ERROR);
+    const fileLogger = new FileLogger(Logger.DEBUG);
+    const consoleLogger = new ConsoleLogger(Logger.INFO);
+
+    errorLogger.setNextLogger(fileLogger);
+    fileLogger.setNextLogger(consoleLogger);
+
+    return errorLogger;
+}
+
+const loggerChain = getChainOfLoggers();
+
+loggerChain.logMessage(Logger.INFO, "This is an information.");
+loggerChain.logMessage(Logger.DEBUG, "This is a debug level information.");
+loggerChain.logMessage(Logger.ERROR, "This is an error information.");
+```
+:::
+
+:::details Pythonコード
+```python
+from abc import ABC, abstractmethod
+
+class Logger(ABC):
+    INFO = 1
+    DEBUG = 2
+    ERROR = 3
+
+    def __init__(self, level):
+        self.level = level
+        self.next_logger = None
+
+    def set_next_logger(self, next_logger):
+        self.next_logger = next_logger
+
+    def log_message(self, level, message):
+        if self.level <= level:
+            self.write(message)
+        if self.next_logger is not None:
+            self.next_logger.log_message(level, message)
+
+    @abstractmethod
+    def write(self, message):
+        pass
+
+class ConsoleLogger(Logger):
+    def write(self, message):
+        print("Standard Console::Logger: " + message)
+
+class FileLogger(Logger):
+    def write(self, message):
+        print("File::Logger: " + message)
+
+class ErrorLogger(Logger):
+    def write(self, message):
+        print("Error Console::Logger: " + message)
+```
+
+```python
+def get_chain_of_loggers():
+    error_logger = ErrorLogger(Logger.ERROR)
+    file_logger = FileLogger(Logger.DEBUG)
+    console_logger = ConsoleLogger(Logger.INFO)
+
+    error_logger.set_next_logger(file_logger)
+    file_logger.set_next_logger(console_logger)
+
+    return error_logger
+
+if __name__ == "__main__":
+    logger_chain = get_chain_of_loggers()
+
+    logger_chain.log_message(Logger.INFO, "This is an information.")
+    logger_chain.log_message(Logger.DEBUG, "This is a debug level information.")
+    logger_chain.log_message(Logger.ERROR, "This is an error information.")
+```
+:::
 
 # Command（コマンド）パターン
 
@@ -1629,6 +3540,207 @@ Webアプリケーションでのリクエスト処理チェーン（例えば�
 
 タスクをコマンドとしてキューに追加し、順番に実行する。
 
+## サンプルコード(Java、TypeScript、Python)
+
+:::details Javaコード
+```java
+interface Command {
+    void execute();
+}
+
+class Light {
+    public void turnOn() {
+        System.out.println("Light is ON");
+    }
+
+    public void turnOff() {
+        System.out.println("Light is OFF");
+    }
+}
+
+class LightOnCommand implements Command {
+    private Light light;
+
+    public LightOnCommand(Light light) {
+        this.light = light;
+    }
+
+    @Override
+    public void execute() {
+        light.turnOn();
+    }
+}
+
+class LightOffCommand implements Command {
+    private Light light;
+
+    public LightOffCommand(Light light) {
+        this.light = light;
+    }
+
+    @Override
+    public void execute() {
+        light.turnOff();
+    }
+}
+
+class RemoteControl {
+    private Command command;
+
+    public void setCommand(Command command) {
+        this.command = command;
+    }
+
+    public void pressButton() {
+        command.execute();
+    }
+}
+```
+
+```java
+public class CommandPatternExample {
+    public static void main(String[] args) {
+        Light light = new Light();
+        Command lightOn = new LightOnCommand(light);
+        Command lightOff = new LightOffCommand(light);
+
+        RemoteControl remote = new RemoteControl();
+
+        remote.setCommand(lightOn);
+        remote.pressButton();
+
+        remote.setCommand(lightOff);
+        remote.pressButton();
+    }
+}
+```
+:::
+
+:::details TypeScriptコード
+```typescript
+interface Command {
+    execute(): void;
+}
+
+class Light {
+    turnOn(): void {
+        console.log("Light is ON");
+    }
+
+    turnOff(): void {
+        console.log("Light is OFF");
+    }
+}
+
+class LightOnCommand implements Command {
+    private light: Light;
+
+    constructor(light: Light) {
+        this.light = light;
+    }
+
+    execute(): void {
+        this.light.turnOn();
+    }
+}
+
+class LightOffCommand implements Command {
+    private light: Light;
+
+    constructor(light: Light) {
+        this.light = light;
+    }
+
+    execute(): void {
+        this.light.turnOff();
+    }
+}
+
+class RemoteControl {
+    private command: Command;
+
+    setCommand(command: Command): void {
+        this.command = command;
+    }
+
+    pressButton(): void {
+        this.command.execute();
+    }
+}
+```
+
+```typescript
+const light = new Light();
+const lightOn = new LightOnCommand(light);
+const lightOff = new LightOffCommand(light);
+
+const remote = new RemoteControl();
+
+remote.setCommand(lightOn);
+remote.pressButton();
+
+remote.setCommand(lightOff);
+remote.pressButton();
+```
+:::
+
+:::details Pythonコード
+```python
+from abc import ABC, abstractmethod
+
+class Command(ABC):
+    @abstractmethod
+    def execute(self):
+        pass
+
+class Light:
+    def turn_on(self):
+        print("Light is ON")
+
+    def turn_off(self):
+        print("Light is OFF")
+
+class LightOnCommand(Command):
+    def __init__(self, light):
+        self.light = light
+
+    def execute(self):
+        self.light.turn_on()
+
+class LightOffCommand(Command):
+    def __init__(self, light):
+        self.light = light
+
+    def execute(self):
+        self.light.turn_off()
+
+class RemoteControl:
+    def __init__(self):
+        self.command = None
+
+    def set_command(self, command):
+        self.command = command
+
+    def press_button(self):
+        self.command.execute()
+```
+
+```python
+if __name__ == "__main__":
+    light = Light()
+    light_on = LightOnCommand(light)
+    light_off = LightOffCommand(light)
+
+    remote = RemoteControl()
+
+    remote.set_command(light_on)
+    remote.press_button()
+
+    remote.set_command(light_off)
+    remote.press_button()
+```
+:::
+
 # Interpreter（インタープリター）パターン
 
 ## メリット
@@ -1711,6 +3823,187 @@ SQLクエリを解析して実行計画を生成する。
 
 ビジネスルールを記述するためのDSLを実装し、ルールを解析して実行する。
 
+## サンプルコード(Java、TypeScript、Python)
+
+:::details Javaコード
+```java
+import java.util.Map;
+import java.util.HashMap;
+
+interface Expression {
+    boolean interpret(Map<String, Boolean> context);
+}
+
+class Variable implements Expression {
+    private String name;
+
+    public Variable(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public boolean interpret(Map<String, Boolean> context) {
+        return context.getOrDefault(name, false);
+    }
+}
+
+class AndExpression implements Expression {
+    private Expression expr1;
+    private Expression expr2;
+
+    public AndExpression(Expression expr1, Expression expr2) {
+        this.expr1 = expr1;
+        this.expr2 = expr2;
+    }
+
+    @Override
+    public boolean interpret(Map<String, Boolean> context) {
+        return expr1.interpret(context) && expr2.interpret(context);
+    }
+}
+
+class OrExpression implements Expression {
+    private Expression expr1;
+    private Expression expr2;
+
+    public OrExpression(Expression expr1, Expression expr2) {
+        this.expr1 = expr1;
+        this.expr2 = expr2;
+    }
+
+    @Override
+    public boolean interpret(Map<String, Boolean> context) {
+        return expr1.interpret(context) || expr2.interpret(context);
+    }
+}
+```
+
+```java
+public class InterpreterPatternExample {
+    public static void main(String[] args) {
+        Expression expr1 = new Variable("x");
+        Expression expr2 = new Variable("y");
+        Expression andExpr = new AndExpression(expr1, expr2);
+        Expression orExpr = new OrExpression(expr1, expr2);
+
+        Map<String, Boolean> context = new HashMap<>();
+        context.put("x", true);
+        context.put("y", false);
+
+        System.out.println("x AND y: " + andExpr.interpret(context)); // Output: false
+        System.out.println("x OR y: " + orExpr.interpret(context));   // Output: true
+    }
+}
+```
+:::
+
+:::details TypeScriptコード
+```typescript
+interface Expression {
+    interpret(context: { [key: string]: boolean }): boolean;
+}
+
+class Variable implements Expression {
+    private name: string;
+
+    constructor(name: string) {
+        this.name = name;
+    }
+
+    interpret(context: { [key: string]: boolean }): boolean {
+        return context[this.name] || false;
+    }
+}
+
+class AndExpression implements Expression {
+    private expr1: Expression;
+    private expr2: Expression;
+
+    constructor(expr1: Expression, expr2: Expression) {
+        this.expr1 = expr1;
+        this.expr2 = expr2;
+    }
+
+    interpret(context: { [key: string]: boolean }): boolean {
+        return this.expr1.interpret(context) && this.expr2.interpret(context);
+    }
+}
+
+class OrExpression implements Expression {
+    private expr1: Expression;
+    private expr2: Expression;
+
+    constructor(expr1: Expression, expr2: Expression) {
+        this.expr1 = expr1;
+        this.expr2 = expr2;
+    }
+
+    interpret(context: { [key: string]: boolean }): boolean {
+        return this.expr1.interpret(context) || this.expr2.interpret(context);
+    }
+}
+```
+
+```typescript
+const expr1: Expression = new Variable("x");
+const expr2: Expression = new Variable("y");
+const andExpr: Expression = new AndExpression(expr1, expr2);
+const orExpr: Expression = new OrExpression(expr1, expr2);
+
+const context: { [key: string]: boolean } = { x: true, y: false };
+
+console.log("x AND y: " + andExpr.interpret(context)); // Output: false
+console.log("x OR y: " + orExpr.interpret(context));   // Output: true
+```
+:::
+
+:::details Pythonコード
+```python
+from abc import ABC, abstractmethod
+
+class Expression(ABC):
+    @abstractmethod
+    def interpret(self, context):
+        pass
+
+class Variable(Expression):
+    def __init__(self, name):
+        self.name = name
+
+    def interpret(self, context):
+        return context.get(self.name, False)
+
+class AndExpression(Expression):
+    def __init__(self, expr1, expr2):
+        self.expr1 = expr1
+        self.expr2 = expr2
+
+    def interpret(self, context):
+        return self.expr1.interpret(context) and self.expr2.interpret(context)
+
+class OrExpression(Expression):
+    def __init__(self, expr1, expr2):
+        self.expr1 = expr1
+        self.expr2 = expr2
+
+    def interpret(self, context):
+        return self.expr1.interpret(context) or self.expr2.interpret(context)
+```
+
+```python
+if __name__ == "__main__":
+    expr1 = Variable("x")
+    expr2 = Variable("y")
+    and_expr = AndExpression(expr1, expr2)
+    or_expr = OrExpression(expr1, expr2)
+
+    context = {"x": True, "y": False}
+
+    print("x AND y:", and_expr.interpret(context))  # Output: False
+    print("x OR y:", or_expr.interpret(context))    # Output: True
+```
+:::
+
 # Iterator（イテレーター）パターン
 
 ## メリット
@@ -1789,6 +4082,169 @@ Javaのjava.util.IteratorやC#のSystem.Collections.IEnumeratorのように、�
 
 構文解析ツールで使用されるイテレーター。
 
+## サンプルコード(Java、TypeScript、Python)
+
+:::details Javaコード
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+interface Container {
+    Iterator getIterator();
+}
+
+class NameRepository implements Container {
+    private List<String> names = new ArrayList<>();
+
+    public NameRepository() {
+        names.add("Robert");
+        names.add("John");
+        names.add("Julie");
+        names.add("Lora");
+    }
+
+    @Override
+    public Iterator getIterator() {
+        return new NameIterator();
+    }
+
+    private class NameIterator implements Iterator {
+        int index;
+
+        @Override
+        public boolean hasNext() {
+            return index < names.size();
+        }
+
+        @Override
+        public Object next() {
+            if (this.hasNext()) {
+                return names.get(index++);
+            }
+            return null;
+        }
+    }
+}
+
+interface Iterator {
+    boolean hasNext();
+    Object next();
+}
+```
+
+```java
+public class IteratorPatternExample {
+    public static void main(String[] args) {
+        NameRepository namesRepository = new NameRepository();
+
+        for (Iterator iter = namesRepository.getIterator(); iter.hasNext(); ) {
+            String name = (String) iter.next();
+            System.out.println("Name: " + name);
+        }
+    }
+}
+```
+:::
+
+:::details TypeScriptコード
+```typescript
+interface Iterator<T> {
+    hasNext(): boolean;
+    next(): T;
+}
+
+interface Container<T> {
+    getIterator(): Iterator<T>;
+}
+
+class NameRepository implements Container<string> {
+    private names: string[] = ["Robert", "John", "Julie", "Lora"];
+
+    getIterator(): Iterator<string> {
+        return new NameIterator(this.names);
+    }
+}
+
+class NameIterator implements Iterator<string> {
+    private index: number = 0;
+
+    constructor(private names: string[]) {}
+
+    hasNext(): boolean {
+        return this.index < this.names.length;
+    }
+
+    next(): string {
+        if (this.hasNext()) {
+            return this.names[this.index++];
+        }
+        return null;
+    }
+}
+```
+
+```typescript
+const namesRepository = new NameRepository();
+
+for (let iterator = namesRepository.getIterator(); iterator.hasNext(); ) {
+    const name = iterator.next();
+    console.log("Name: " + name);
+}
+```
+:::
+
+:::details Pythonコード
+```python
+from typing import List, Iterator as TypingIterator
+
+class Iterator(ABC):
+    @abstractmethod
+    def has_next(self) -> bool:
+        pass
+
+    @abstractmethod
+    def next(self):
+        pass
+
+class Container(ABC):
+    @abstractmethod
+    def get_iterator(self) -> Iterator:
+        pass
+
+class NameRepository(Container):
+    def __init__(self):
+        self.names = ["Robert", "John", "Julie", "Lora"]
+
+    def get_iterator(self) -> Iterator:
+        return NameIterator(self.names)
+
+class NameIterator(Iterator):
+    def __init__(self, names: List[str]):
+        self.index = 0
+        self.names = names
+
+    def has_next(self) -> bool:
+        return self.index < len(self.names)
+
+    def next(self):
+        if self.has_next():
+            result = self.names[self.index]
+            self.index += 1
+            return result
+        return None
+```
+
+```python
+if __name__ == "__main__":
+    names_repository = NameRepository()
+
+    iterator = names_repository.get_iterator()
+    while iterator.has_next():
+        name = iterator.next()
+        print("Name:", name)
+```
+:::
+
 # Mediator（メディエーター）パターン
 
 ## メリット
@@ -1862,6 +4318,227 @@ Javaのjava.util.IteratorやC#のSystem.Collections.IEnumeratorのように、�
 - ワークフロー管理
 
 複数の業務プロセスがメディエーターを介して連携し、ワークフローを管理する。
+
+## サンプルコード(Java、TypeScript、Python)
+
+:::details Javaコード
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+interface ChatMediator {
+    void sendMessage(String message, User user);
+    void addUser(User user);
+}
+
+class ChatMediatorImpl implements ChatMediator {
+    private List<User> users;
+
+    public ChatMediatorImpl() {
+        this.users = new ArrayList<>();
+    }
+
+    @Override
+    public void addUser(User user) {
+        this.users.add(user);
+    }
+
+    @Override
+    public void sendMessage(String message, User user) {
+        for (User u : this.users) {
+            // message should not be received by the user sending it
+            if (u != user) {
+                u.receive(message);
+            }
+        }
+    }
+}
+
+abstract class User {
+    protected ChatMediator mediator;
+    protected String name;
+
+    public User(ChatMediator mediator, String name) {
+        this.mediator = mediator;
+        this.name = name;
+    }
+
+    public abstract void send(String message);
+    public abstract void receive(String message);
+}
+
+class UserImpl extends User {
+    public UserImpl(ChatMediator mediator, String name) {
+        super(mediator, name);
+    }
+
+    @Override
+    public void send(String message) {
+        System.out.println(this.name + " Sending Message: " + message);
+        mediator.sendMessage(message, this);
+    }
+
+    @Override
+    public void receive(String message) {
+        System.out.println(this.name + " Received Message: " + message);
+    }
+}
+```
+
+```java
+public class MediatorPatternExample {
+    public static void main(String[] args) {
+        ChatMediator mediator = new ChatMediatorImpl();
+
+        User user1 = new UserImpl(mediator, "User1");
+        User user2 = new UserImpl(mediator, "User2");
+        User user3 = new UserImpl(mediator, "User3");
+        User user4 = new UserImpl(mediator, "User4");
+
+        mediator.addUser(user1);
+        mediator.addUser(user2);
+        mediator.addUser(user3);
+        mediator.addUser(user4);
+
+        user1.send("Hi All");
+    }
+}
+```
+:::
+
+:::details TypeScriptコード
+```typescript
+interface ChatMediator {
+    sendMessage(message: string, user: User): void;
+    addUser(user: User): void;
+}
+
+class ChatMediatorImpl implements ChatMediator {
+    private users: User[] = [];
+
+    addUser(user: User): void {
+        this.users.push(user);
+    }
+
+    sendMessage(message: string, user: User): void {
+        for (const u of this.users) {
+            if (u !== user) {
+                u.receive(message);
+            }
+        }
+    }
+}
+
+abstract class User {
+    protected mediator: ChatMediator;
+    protected name: string;
+
+    constructor(mediator: ChatMediator, name: string) {
+        this.mediator = mediator;
+        this.name = name;
+    }
+
+    abstract send(message: string): void;
+    abstract receive(message: string): void;
+}
+
+class UserImpl extends User {
+    constructor(mediator: ChatMediator, name: string) {
+        super(mediator, name);
+    }
+
+    send(message: string): void {
+        console.log(`${this.name} Sending Message: ${message}`);
+        this.mediator.sendMessage(message, this);
+    }
+
+    receive(message: string): void {
+        console.log(`${this.name} Received Message: ${message}`);
+    }
+}
+```
+
+```typescript
+const mediator = new ChatMediatorImpl();
+
+const user1 = new UserImpl(mediator, "User1");
+const user2 = new UserImpl(mediator, "User2");
+const user3 = new UserImpl(mediator, "User3");
+const user4 = new UserImpl(mediator, "User4");
+
+mediator.addUser(user1);
+mediator.addUser(user2);
+mediator.addUser(user3);
+mediator.addUser(user4);
+
+user1.send("Hi All");
+```
+:::
+
+:::details Pythonコード
+```python
+from abc import ABC, abstractmethod
+
+class ChatMediator(ABC):
+    @abstractmethod
+    def send_message(self, message: str, user: 'User'):
+        pass
+
+    @abstractmethod
+    def add_user(self, user: 'User'):
+        pass
+
+class ChatMediatorImpl(ChatMediator):
+    def __init__(self):
+        self.users = []
+
+    def add_user(self, user: 'User'):
+        self.users.append(user)
+
+    def send_message(self, message: str, user: 'User'):
+        for u in self.users:
+            if u != user:
+                u.receive(message)
+
+class User(ABC):
+    def __init__(self, mediator: ChatMediator, name: str):
+        self.mediator = mediator
+        self.name = name
+
+    @abstractmethod
+    def send(self, message: str):
+        pass
+
+    @abstractmethod
+    def receive(self, message: str):
+        pass
+
+class UserImpl(User):
+    def send(self, message: str):
+        print(f"{self.name} Sending Message: {message}")
+        self.mediator.send_message(message, self)
+
+    def receive(self, message: str):
+        print(f"{self.name} Received Message: {message}")
+```
+
+```python
+if __name__ == "__main__":
+    mediator = ChatMediatorImpl()
+
+    user1 = UserImpl(mediator, "User1")
+    user2 = UserImpl(mediator, "User2")
+    user3 = UserImpl(mediator, "User3")
+    user4 = UserImpl(mediator, "User4")
+
+    mediator.add_user(user1)
+    mediator.add_user(user2)
+    mediator.add_user(user3)
+    mediator.add_user(user4)
+
+    user1.send("Hi All")
+```
+:::
 
 # Observer（オブザーバー）パターン
 
@@ -1941,6 +4618,204 @@ Javaのjava.util.IteratorやC#のSystem.Collections.IEnumeratorのように、�
 
 アプリケーション内で発生する様々なイベントをキャプチャして、ログとして保存する。
 
+## サンプルコード(Java、TypeScript、Python)
+
+:::details Javaコード
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+class Subject {
+    private List<Observer> observers = new ArrayList<>();
+    private int state;
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+        notifyAllObservers();
+    }
+
+    public void attach(Observer observer) {
+        observers.add(observer);
+    }
+
+    public void notifyAllObservers() {
+        for (Observer observer : observers) {
+            observer.update();
+        }
+    }
+}
+
+abstract class Observer {
+    protected Subject subject;
+    public abstract void update();
+}
+
+class BinaryObserver extends Observer {
+
+    public BinaryObserver(Subject subject) {
+        this.subject = subject;
+        this.subject.attach(this);
+    }
+
+    @Override
+    public void update() {
+        System.out.println("Binary String: " + Integer.toBinaryString(subject.getState()));
+    }
+}
+
+class HexObserver extends Observer {
+
+    public HexObserver(Subject subject) {
+        this.subject = subject;
+        this.subject.attach(this);
+    }
+
+    @Override
+    public void update() {
+        System.out.println("Hex String: " + Integer.toHexString(subject.getState()).toUpperCase());
+    }
+}
+```
+
+```java
+public class ObserverPatternExample {
+    public static void main(String[] args) {
+        Subject subject = new Subject();
+
+        new HexObserver(subject);
+        new BinaryObserver(subject);
+
+        System.out.println("First state change: 15");
+        subject.setState(15);
+
+        System.out.println("Second state change: 10");
+        subject.setState(10);
+    }
+}
+```
+:::
+
+:::details TypeScriptコード
+```typescript
+class Subject {
+    private observers: Observer[] = [];
+    private state: number;
+
+    getState(): number {
+        return this.state;
+    }
+
+    setState(state: number): void {
+        this.state = state;
+        this.notifyAllObservers();
+    }
+
+    attach(observer: Observer): void {
+        this.observers.push(observer);
+    }
+
+    notifyAllObservers(): void {
+        for (const observer of this.observers) {
+            observer.update();
+        }
+    }
+}
+
+abstract class Observer {
+    protected subject: Subject;
+
+    constructor(subject: Subject) {
+        this.subject = subject;
+        this.subject.attach(this);
+    }
+
+    abstract update(): void;
+}
+
+class BinaryObserver extends Observer {
+    update(): void {
+        console.log("Binary String: " + this.subject.getState().toString(2));
+    }
+}
+
+class HexObserver extends Observer {
+    update(): void {
+        console.log("Hex String: " + this.subject.getState().toString(16).toUpperCase());
+    }
+}
+```
+
+```typescript
+const subject = new Subject();
+
+new HexObserver(subject);
+new BinaryObserver(subject);
+
+console.log("First state change: 15");
+subject.setState(15);
+
+console.log("Second state change: 10");
+subject.setState(10);
+```
+:::
+
+:::details Pythonコード
+```python
+class Subject:
+    def __init__(self):
+        self._observers = []
+        self._state = None
+
+    def get_state(self):
+        return self._state
+
+    def set_state(self, state):
+        self._state = state
+        self.notify_all_observers()
+
+    def attach(self, observer):
+        self._observers.append(observer)
+
+    def notify_all_observers(self):
+        for observer in self._observers:
+            observer.update()
+
+class Observer:
+    def __init__(self, subject):
+        self.subject = subject
+        self.subject.attach(self)
+
+    def update(self):
+        pass
+
+class BinaryObserver(Observer):
+    def update(self):
+        print("Binary String: " + bin(self.subject.get_state())[2:])
+
+class HexObserver(Observer):
+    def update(self):
+        print("Hex String: " + hex(self.subject.get_state())[2:].upper())
+```
+
+```python
+if __name__ == "__main__":
+    subject = Subject()
+
+    HexObserver(subject)
+    BinaryObserver(subject)
+
+    print("First state change: 15")
+    subject.set_state(15)
+
+    print("Second state change: 10")
+    subject.set_state(10)
+```
+:::
+
 # State（ステート）パターン
 
 ## メリット
@@ -2018,6 +4893,182 @@ Javaのjava.util.IteratorやC#のSystem.Collections.IEnumeratorのように、�
 - トラフィックライトシステム
 
 信号機の状態（赤、黄、緑）を管理し、各状態に応じた動作を実装。
+
+## サンプルコード(Java、TypeScript、Python)
+
+:::details Javaコード
+```java
+interface State {
+    void doAction(Context context);
+}
+
+class StartState implements State {
+    public void doAction(Context context) {
+        System.out.println("Player is in start state");
+        context.setState(this);
+    }
+
+    public String toString() {
+        return "Start State";
+    }
+}
+
+class StopState implements State {
+    public void doAction(Context context) {
+        System.out.println("Player is in stop state");
+        context.setState(this);
+    }
+
+    public String toString() {
+        return "Stop State";
+    }
+}
+
+class Context {
+    private State state;
+
+    public Context() {
+        state = null;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public State getState() {
+        return state;
+    }
+}
+```
+
+```java
+public class StatePatternExample {
+    public static void main(String[] args) {
+        Context context = new Context();
+
+        StartState startState = new StartState();
+        startState.doAction(context);
+
+        System.out.println(context.getState().toString());
+
+        StopState stopState = new StopState();
+        stopState.doAction(context);
+
+        System.out.println(context.getState().toString());
+    }
+}
+```
+:::
+
+:::details TypeScriptコード
+```typescript
+interface State {
+    doAction(context: Context): void;
+}
+
+class StartState implements State {
+    doAction(context: Context): void {
+        console.log("Player is in start state");
+        context.setState(this);
+    }
+
+    toString(): string {
+        return "Start State";
+    }
+}
+
+class StopState implements State {
+    doAction(context: Context): void {
+        console.log("Player is in stop state");
+        context.setState(this);
+    }
+
+    toString(): string {
+        return "Stop State";
+    }
+}
+
+class Context {
+    private state: State;
+
+    constructor() {
+        this.state = null;
+    }
+
+    setState(state: State): void {
+        this.state = state;
+    }
+
+    getState(): State {
+        return this.state;
+    }
+}
+```
+
+```typescript
+const context = new Context();
+
+const startState = new StartState();
+startState.doAction(context);
+
+console.log(context.getState().toString());
+
+const stopState = new StopState();
+stopState.doAction(context);
+
+console.log(context.getState().toString());
+```
+:::
+
+:::details Pythonコード
+```python
+from abc import ABC, abstractmethod
+
+class State(ABC):
+    @abstractmethod
+    def do_action(self, context):
+        pass
+
+class StartState(State):
+    def do_action(self, context):
+        print("Player is in start state")
+        context.set_state(self)
+
+    def __str__(self):
+        return "Start State"
+
+class StopState(State):
+    def do_action(self, context):
+        print("Player is in stop state")
+        context.set_state(self)
+
+    def __str__(self):
+        return "Stop State"
+
+class Context:
+    def __init__(self):
+        self._state = None
+
+    def set_state(self, state):
+        self._state = state
+
+    def get_state(self):
+        return self._state
+```
+
+```python
+if __name__ == "__main__":
+    context = Context()
+
+    start_state = StartState()
+    start_state.do_action(context)
+    print(context.get_state())
+
+    stop_state = StopState()
+    stop_state.do_action(context)
+    print(context.get_state())
+```
+:::
 
 # Strategy（ストラテジー）パターン
 
@@ -2097,6 +5148,166 @@ Javaのjava.util.IteratorやC#のSystem.Collections.IEnumeratorのように、�
 
 異なる描画アルゴリズム（例えば、線の描画、塗りつぶしアルゴリズム）を選択して描画処理を行う。
 
+## サンプルコード(Java、TypeScript、Python)
+
+:::details Javaコード
+```java
+interface Strategy {
+    int doOperation(int num1, int num2);
+}
+
+class OperationAdd implements Strategy {
+    @Override
+    public int doOperation(int num1, int num2) {
+        return num1 + num2;
+    }
+}
+
+class OperationSubtract implements Strategy {
+    @Override
+    public int doOperation(int num1, int num2) {
+        return num1 - num2;
+    }
+}
+
+class OperationMultiply implements Strategy {
+    @Override
+    public int doOperation(int num1, int num2) {
+        return num1 * num2;
+    }
+}
+
+class Context {
+    private Strategy strategy;
+
+    public Context(Strategy strategy) {
+        this.strategy = strategy;
+    }
+
+    public void setStrategy(Strategy strategy) {
+        this.strategy = strategy;
+    }
+
+    public int executeStrategy(int num1, int num2) {
+        return strategy.doOperation(num1, num2);
+    }
+}
+```
+
+```java
+public class StrategyPatternExample {
+    public static void main(String[] args) {
+        Context context = new Context(new OperationAdd());
+        System.out.println("10 + 5 = " + context.executeStrategy(10, 5));
+
+        context.setStrategy(new OperationSubtract());
+        System.out.println("10 - 5 = " + context.executeStrategy(10, 5));
+
+        context.setStrategy(new OperationMultiply());
+        System.out.println("10 * 5 = " + context.executeStrategy(10, 5));
+    }
+}
+```
+:::
+
+:::details TypeScriptコード
+```typescript
+interface Strategy {
+    doOperation(num1: number, num2: number): number;
+}
+
+class OperationAdd implements Strategy {
+    doOperation(num1: number, num2: number): number {
+        return num1 + num2;
+    }
+}
+
+class OperationSubtract implements Strategy {
+    doOperation(num1: number, num2: number): number {
+        return num1 - num2;
+    }
+}
+
+class OperationMultiply implements Strategy {
+    doOperation(num1: number, num2: number): number {
+        return num1 * num2;
+    }
+}
+
+class Context {
+    private strategy: Strategy;
+
+    constructor(strategy: Strategy) {
+        this.strategy = strategy;
+    }
+
+    setStrategy(strategy: Strategy): void {
+        this.strategy = strategy;
+    }
+
+    executeStrategy(num1: number, num2: number): number {
+        return this.strategy.doOperation(num1, num2);
+    }
+}
+```
+
+```typescript
+const context = new Context(new OperationAdd());
+console.log("10 + 5 = " + context.executeStrategy(10, 5));
+
+context.setStrategy(new OperationSubtract());
+console.log("10 - 5 = " + context.executeStrategy(10, 5));
+
+context.setStrategy(new OperationMultiply());
+console.log("10 * 5 = " + context.executeStrategy(10, 5));
+```
+:::
+
+:::details Pythonコード
+```python
+from abc import ABC, abstractmethod
+
+class Strategy(ABC):
+    @abstractmethod
+    def do_operation(self, num1, num2):
+        pass
+
+class OperationAdd(Strategy):
+    def do_operation(self, num1, num2):
+        return num1 + num2
+
+class OperationSubtract(Strategy):
+    def do_operation(self, num1, num2):
+        return num1 - num2
+
+class OperationMultiply(Strategy):
+    def do_operation(self, num1, num2):
+        return num1 * num2
+
+class Context:
+    def __init__(self, strategy: Strategy):
+        self._strategy = strategy
+
+    def set_strategy(self, strategy: Strategy):
+        self._strategy = strategy
+
+    def execute_strategy(self, num1, num2):
+        return self._strategy.do_operation(num1, num2)
+```
+
+```python
+if __name__ == "__main__":
+    context = Context(OperationAdd())
+    print("10 + 5 =", context.execute_strategy(10, 5))
+
+    context.set_strategy(OperationSubtract())
+    print("10 - 5 =", context.execute_strategy(10, 5))
+
+    context.set_strategy(OperationMultiply())
+    print("10 * 5 =", context.execute_strategy(10, 5))
+```
+:::
+
 # Template Method（テンプレートメソッド）パターン
 
 ## メリット
@@ -2170,6 +5381,185 @@ Javaのjava.util.IteratorやC#のSystem.Collections.IEnumeratorのように、�
 - ファイルの読み取り
 
 ファイルの共通の読み取り手順（ファイルを開く、データを読み取る、ファイルを閉じる）をテンプレートメソッドで定義し、データ読み取り部分の具体的な処理をサブクラスで実装。
+
+## サンプルコード(Java、TypeScript、Python)
+
+:::details Javaコード
+```java
+abstract class Game {
+    abstract void initialize();
+    abstract void startPlay();
+    abstract void endPlay();
+
+    // Template method
+    public final void play() {
+        // Initialize the game
+        initialize();
+        // Start game
+        startPlay();
+        // End game
+        endPlay();
+    }
+}
+
+class Cricket extends Game {
+    @Override
+    void initialize() {
+        System.out.println("Cricket Game Initialized! Start playing.");
+    }
+
+    @Override
+    void startPlay() {
+        System.out.println("Cricket Game Started. Enjoy the game!");
+    }
+
+    @Override
+    void endPlay() {
+        System.out.println("Cricket Game Finished!");
+    }
+}
+
+class Football extends Game {
+    @Override
+    void initialize() {
+        System.out.println("Football Game Initialized! Start playing.");
+    }
+
+    @Override
+    void startPlay() {
+        System.out.println("Football Game Started. Enjoy the game!");
+    }
+
+    @Override
+    void endPlay() {
+        System.out.println("Football Game Finished!");
+    }
+}
+```
+
+```java
+public class TemplateMethodPatternExample {
+    public static void main(String[] args) {
+        Game game = new Cricket();
+        game.play();
+        System.out.println();
+        game = new Football();
+        game.play();
+    }
+}
+```
+:::
+
+:::details TypeScriptコード
+```typescript
+abstract class Game {
+    // Template method
+    public play(): void {
+        this.initialize();
+        this.startPlay();
+        this.endPlay();
+    }
+
+    protected abstract initialize(): void;
+    protected abstract startPlay(): void;
+    protected abstract endPlay(): void;
+}
+
+class Cricket extends Game {
+    protected initialize(): void {
+        console.log("Cricket Game Initialized! Start playing.");
+    }
+
+    protected startPlay(): void {
+        console.log("Cricket Game Started. Enjoy the game!");
+    }
+
+    protected endPlay(): void {
+        console.log("Cricket Game Finished!");
+    }
+}
+
+class Football extends Game {
+    protected initialize(): void {
+        console.log("Football Game Initialized! Start playing.");
+    }
+
+    protected startPlay(): void {
+        console.log("Football Game Started. Enjoy the game!");
+    }
+
+    protected endPlay(): void {
+        console.log("Football Game Finished!");
+    }
+}
+```
+
+```typescript
+const cricket = new Cricket();
+cricket.play();
+
+console.log();
+
+const football = new Football();
+football.play();
+```
+:::
+
+:::details Pythonコード
+```python
+from abc import ABC, abstractmethod
+
+class Game(ABC):
+    # Template method
+    def play(self):
+        self.initialize()
+        self.start_play()
+        self.end_play()
+
+    @abstractmethod
+    def initialize(self):
+        pass
+
+    @abstractmethod
+    def start_play(self):
+        pass
+
+    @abstractmethod
+    def end_play(self):
+        pass
+
+class Cricket(Game):
+    def initialize(self):
+        print("Cricket Game Initialized! Start playing.")
+
+    def start_play(self):
+        print("Cricket Game Started. Enjoy the game!")
+
+    def end_play(self):
+        print("Cricket Game Finished!")
+
+class Football(Game):
+    def initialize(self):
+        print("Football Game Initialized! Start playing.")
+
+    def start_play(self):
+        print("Football Game Started. Enjoy the game!")
+
+    def end_play(self):
+        print("Football Game Finished!")
+```
+
+```python
+if __name__ == "__main__":
+    cricket = Cricket()
+    cricket.play()
+    
+    print()
+    
+    football = Football()
+    football.play()
+```
+:::
 
 # Visitor（ビジター）パターン
 
@@ -2245,10 +5635,232 @@ Visitorと要素クラス間の双方向の依存関係が発生するため、�
 
 ゲームオブジェクト（キャラクター、アイテム、障害物）に対して異なる処理（例えば、描画、更新、衝突判定）をVisitorパターンで実装。
 
+## サンプルコード(Java、TypeScript、Python)
 
+:::details Javaコード
+```java
+interface ComputerPartVisitor {
+    void visit(Keyboard keyboard);
+    void visit(Monitor monitor);
+    void visit(Mouse mouse);
+    void visit(Computer computer);
+}
 
+interface ComputerPart {
+    void accept(ComputerPartVisitor computerPartVisitor);
+}
 
+class Keyboard implements ComputerPart {
+    @Override
+    public void accept(ComputerPartVisitor computerPartVisitor) {
+        computerPartVisitor.visit(this);
+    }
+}
 
+class Monitor implements ComputerPart {
+    @Override
+    public void accept(ComputerPartVisitor computerPartVisitor) {
+        computerPartVisitor.visit(this);
+    }
+}
 
+class Mouse implements ComputerPart {
+    @Override
+    public void accept(ComputerPartVisitor computerPartVisitor) {
+        computerPartVisitor.visit(this);
+    }
+}
 
+class Computer implements ComputerPart {
+    ComputerPart[] parts;
 
+    public Computer() {
+        parts = new ComputerPart[] {new Mouse(), new Keyboard(), new Monitor()};
+    }
+
+    @Override
+    public void accept(ComputerPartVisitor computerPartVisitor) {
+        for (int i = 0; i < parts.length; i++) {
+            parts[i].accept(computerPartVisitor);
+        }
+        computerPartVisitor.visit(this);
+    }
+}
+
+class ComputerPartDisplayVisitor implements ComputerPartVisitor {
+    @Override
+    public void visit(Keyboard keyboard) {
+        System.out.println("Displaying Keyboard.");
+    }
+
+    @Override
+    public void visit(Monitor monitor) {
+        System.out.println("Displaying Monitor.");
+    }
+
+    @Override
+    public void visit(Mouse mouse) {
+        System.out.println("Displaying Mouse.");
+    }
+
+    @Override
+    public void visit(Computer computer) {
+        System.out.println("Displaying Computer.");
+    }
+}
+```
+
+```java
+public class VisitorPatternExample {
+    public static void main(String[] args) {
+        ComputerPart computer = new Computer();
+        computer.accept(new ComputerPartDisplayVisitor());
+    }
+}
+```
+:::
+
+:::details TypeScriptコード
+```typescript
+interface ComputerPartVisitor {
+    visitKeyboard(keyboard: Keyboard): void;
+    visitMonitor(monitor: Monitor): void;
+    visitMouse(mouse: Mouse): void;
+    visitComputer(computer: Computer): void;
+}
+
+interface ComputerPart {
+    accept(computerPartVisitor: ComputerPartVisitor): void;
+}
+
+class Keyboard implements ComputerPart {
+    accept(computerPartVisitor: ComputerPartVisitor): void {
+        computerPartVisitor.visitKeyboard(this);
+    }
+}
+
+class Monitor implements ComputerPart {
+    accept(computerPartVisitor: ComputerPartVisitor): void {
+        computerPartVisitor.visitMonitor(this);
+    }
+}
+
+class Mouse implements ComputerPart {
+    accept(computerPartVisitor: ComputerPartVisitor): void {
+        computerPartVisitor.visitMouse(this);
+    }
+}
+
+class Computer implements ComputerPart {
+    private parts: ComputerPart[];
+
+    constructor() {
+        this.parts = [new Mouse(), new Keyboard(), new Monitor()];
+    }
+
+    accept(computerPartVisitor: ComputerPartVisitor): void {
+        for (const part of this.parts) {
+            part.accept(computerPartVisitor);
+        }
+        computerPartVisitor.visitComputer(this);
+    }
+}
+
+class ComputerPartDisplayVisitor implements ComputerPartVisitor {
+    visitKeyboard(keyboard: Keyboard): void {
+        console.log("Displaying Keyboard.");
+    }
+
+    visitMonitor(monitor: Monitor): void {
+        console.log("Displaying Monitor.");
+    }
+
+    visitMouse(mouse: Mouse): void {
+        console.log("Displaying Mouse.");
+    }
+
+    visitComputer(computer: Computer): void {
+        console.log("Displaying Computer.");
+    }
+}
+```
+
+```typescript
+const computer = new Computer();
+computer.accept(new ComputerPartDisplayVisitor());
+```
+:::
+
+:::details Pythonコード
+```python
+from abc import ABC, abstractmethod
+
+class ComputerPartVisitor(ABC):
+    @abstractmethod
+    def visit_keyboard(self, keyboard):
+        pass
+
+    @abstractmethod
+    def visit_monitor(self, monitor):
+        pass
+
+    @abstractmethod
+    def visit_mouse(self, mouse):
+        pass
+
+    @abstractmethod
+    def visit_computer(self, computer):
+        pass
+
+class ComputerPart(ABC):
+    @abstractmethod
+    def accept(self, computer_part_visitor):
+        pass
+
+class Keyboard(ComputerPart):
+    def accept(self, computer_part_visitor):
+        computer_part_visitor.visit_keyboard(self)
+
+class Monitor(ComputerPart):
+    def accept(self, computer_part_visitor):
+        computer_part_visitor.visit_monitor(self)
+
+class Mouse(ComputerPart):
+    def accept(self, computer_part_visitor):
+        computer_part_visitor.visit_mouse(self)
+
+class Computer(ComputerPart):
+    def __init__(self):
+        self.parts = [Mouse(), Keyboard(), Monitor()]
+
+    def accept(self, computer_part_visitor):
+        for part in self.parts:
+            part.accept(computer_part_visitor)
+        computer_part_visitor.visit_computer(self)
+
+class ComputerPartDisplayVisitor(ComputerPartVisitor):
+    def visit_keyboard(self, keyboard):
+        print("Displaying Keyboard.")
+
+    def visit_monitor(self, monitor):
+        print("Displaying Monitor.")
+
+    def visit_mouse(self, mouse):
+        print("Displaying Mouse.")
+
+    def visit_computer(self, computer):
+        print("Displaying Computer.")
+```
+
+```python
+if __name__ == "__main__":
+    computer = Computer()
+    computer.accept(ComputerPartDisplayVisitor())
+```
+:::
+
+# おわりに
+
+ChatGPT-4を利用してデザインパターンをまとめました。この記事がデザインパターンの選定を行う際に役立つ資料となれば幸いです。もちろん、誤りがある場合は適宜修正し、より精度の高い記事にしていきたいと考えています。
+
+最後まで読んでいただき、ありがとうございました！
