@@ -1,9 +1,9 @@
 ---
 title: "React + TypeScriptでテストコードの基礎を固める"
-emoji: "💡"
+emoji: "⚡"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["react", "typescript", "jest", "vitest"]
-published: false
+published: true
 ---
 
 # はじめに
