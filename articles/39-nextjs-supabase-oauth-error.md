@@ -3,7 +3,7 @@ title: "Supabaseでの認証ユーザー追加時にデータ挿入エラーの�
 emoji: "💡"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["nextjs", "typescript", "supabase", "github", "oauth"]
-published: false
+published: true
 ---
 
 # はじめに
