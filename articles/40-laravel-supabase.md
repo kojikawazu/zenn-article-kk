@@ -20,31 +20,31 @@ published: false
 
 Supabaseには強力な認証機能があり、OAuthを利用することで以下のようなメリットがあります。
 
-- 1. ユーザー体験の向上
+1. ユーザー体験の向上
   - 簡単なログインプロセス
     - ユーザーはGoogle、GitHub、Facebookなどの既存のアカウントを使ってログインできるため、新たにアカウントを作成する手間が省けます。
   - 高速なアクセス
     - ワンクリックでのログインが可能なため、ユーザーがアプリケーションに迅速にアクセスできます。
 
-- 2. セキュリティの向上
+2. セキュリティの向上
   - 安全な認証
     - OAuthは広く使用されており、信頼性と安全性が高い認証プロトコルです。パスワードを直接扱わないため、セキュリティリスクが減少します。
   - 二要素認証（2FA）のサポート
     - 多くのOAuthプロバイダーは二要素認証をサポートしており、セキュリティをさらに強化できます。
 
-- 3. 開発効率の向上
+3. 開発効率の向上
   - 簡単な実装
     - Supabaseは、OAuthプロバイダーとの統合を簡単にするためのツールとドキュメントを提供しており、実装が容易です。
   - メンテナンスの削減
     - ユーザー管理と認証に関する複雑な部分をOAuthプロバイダーに任せることで、開発者は他の機能に集中できます。
 
-- 4. ユーザーデータの一元管理
+4. ユーザーデータの一元管理
   - 統一されたユーザープロファイル
     - ユーザーが複数のサービスで同じOAuthプロバイダーを使用している場合、統一されたプロファイルデータを取得しやすくなります。
   - 自動データ更新
     - OAuthプロバイダーによっては、ユーザーのプロフィール情報が変更された際に自動的に更新されるため、最新のデータを維持できます。
 
-- 5. マーケティングおよび分析
+5. マーケティングおよび分析
   - ソーシャルログインデータの活用
     - ソーシャルメディアを利用したログインを提供することで、ユーザーの興味や行動に関するデータを収集しやすくなり、マーケティング戦略の改善に役立ちます。
 
@@ -71,9 +71,9 @@ Supabase: 最新バージョン
 6. Developer settingsへ移動します。
 7. OAuth Appsを選択し、新しいOAuthアプリケーションを作成します。
 8. フォームに必要な情報を入力し、Register applicationボタンを押します。
-  - Application name:
-  - Homepage URL:
-  - Authorization callback URL:
+  - Application name:[任意のWebアプリケーション名]
+  - Homepage URL:(ローカル環境の場合)http://localhost:[使用ポート]等
+  - Authorization callback URL:(ローカル環境の場合)http://localhost:[使用ポート]/auth/v1/callback等
 9. ClientIDとClient Secretをメモします。
 10. Supabaseのダッシュボードに戻り、GitHubのClient IDとClient Secretを入力して保存します。
 11. SupabaseのAuthenticationのURL Configurationに移動し、Site URLとRedirect URLを入力して保存します。
@@ -107,7 +107,7 @@ SupabaseとGitHubの認証およびデータベース接続のために、必要
 
 ```:.env
 SUPABASE_URL=<SupabaseプロジェクトのURL>
-SUPABASE_KEY=<SupabaseプロジェクトのAPI_KEY>
+SUPABASE_KEY=<SupabaseプロジェクトのProject API keys(anon)>
 ```
 
 ## PostgreSQL の環境変数の設定
@@ -130,7 +130,7 @@ DB_PASSWORD=<Supabaseのデータベースのパスワード>
 ```:.env
 GITHUB_CLIENT_ID=<GitHubクライアントID>
 GITHUB_CLIENT_SECRET=<GitHubのクライアントシークレット>
-GITHUB_REDIRECT_URI=https://[supabase]/auth/github/callback
+GITHUB_REDIRECT_URI=(ローカル環境の場合)http://localhost:[使用ポート]/auth/v1/callback
 ```
 
 # Webアプリケーション側の設定
@@ -517,7 +517,7 @@ resources/views/welcome.blade.phpファイルを開き、以下のコードを�
 
 Supabaseのデータベース側で、ユーザー情報が正しく保存されていることを確認します。ユーザーがGitHubで認証した後、usersテーブルにGitHub ID、アバター、トークンなどの情報が保存されています。
 
-![データベースの確認](https://storage.googleapis.com/zenn-user-upload/129213dd5114-20240527.png)
+![データベースの確認](https://storage.googleapis.com/zenn-user-upload/1a09ff8169bd-20240527.png)
 
 # 終わりに
 
