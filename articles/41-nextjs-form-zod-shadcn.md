@@ -1,5 +1,5 @@
 ---
-title: "LaravelでSupabaseのOAuth認証を設定する方法"
+title: "Shadcn/uiやZodを使ったフォームからResendを利用してメールを送ってみる"
 emoji: "📜"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["nextjs", "typescript", "zod", "shadcnui", "reacthookform"]
